@@ -10,11 +10,11 @@
     - [x] Add `androidx.navigation:navigation-compose` dependency
     - [x] Set up `NavHost` in `MainActivity`
     - [x] Define routes (e.g., `BannerList`, `BannerDetail`, `Planner`)
-- [ ] **Networking (Retrofit)**
-    - [ ] Add Retrofit & OkHttp dependencies
-    - [ ] Add Kotlinx Serialization dependency
-    - [ ] Create API interface definitions
-    - [ ] Configure Retrofit instance in Hilt module
+- [x] **Networking (Retrofit)**
+    - [x] Add Retrofit & OkHttp dependencies
+    - [x] Add Kotlinx Serialization dependency
+    - [x] Create API interface definitions
+    - [x] Configure Retrofit instance in Hilt module
 - [ ] **Local Database (Room)**
     - [ ] Add Room dependencies (runtime, ktx, compiler)
     - [ ] Define Entity classes for Banners

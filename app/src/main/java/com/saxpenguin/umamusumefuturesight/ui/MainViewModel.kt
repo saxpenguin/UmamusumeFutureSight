@@ -44,14 +44,16 @@ class MainViewModel @Inject constructor(
     }
 
     fun setFilter(type: BannerType?) {
-        _uiState.update { currentState ->
+        viewModelScope.launch {
             val allBanners = bannerRepository.getBanners()
-            val filtered = if (type == null) {
-                allBanners
-            } else {
-                allBanners.filter { it.type == type }
+            _uiState.update { currentState ->
+                val filtered = if (type == null) {
+                    allBanners
+                } else {
+                    allBanners.filter { it.type == type }
+                }
+                currentState.copy(filterType = type, banners = filtered)
             }
-            currentState.copy(filterType = type, banners = filtered)
         }
     }
 
