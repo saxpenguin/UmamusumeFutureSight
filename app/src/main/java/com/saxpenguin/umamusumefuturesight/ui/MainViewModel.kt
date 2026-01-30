@@ -5,12 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.saxpenguin.umamusumefuturesight.data.BannerRepository
 import com.saxpenguin.umamusumefuturesight.model.Banner
 import com.saxpenguin.umamusumefuturesight.model.BannerType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import javax.inject.Inject
 
 data class MainUiState(
     val banners: List<Banner> = emptyList(),
@@ -18,7 +19,14 @@ data class MainUiState(
     val offsetDays: Long = 490
 )
 
-class MainViewModel : ViewModel() {
+/**
+ * ViewModel for the main screen.
+ * Manages UI state and banner data loading.
+ */
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val bannerRepository: BannerRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
@@ -29,7 +37,7 @@ class MainViewModel : ViewModel() {
 
     private fun loadBanners() {
         viewModelScope.launch {
-            val allBanners = BannerRepository.getBanners()
+            val allBanners = bannerRepository.getBanners()
             // 預設先顯示所有
             _uiState.update { it.copy(banners = allBanners) }
         }
@@ -37,7 +45,7 @@ class MainViewModel : ViewModel() {
 
     fun setFilter(type: BannerType?) {
         _uiState.update { currentState ->
-            val allBanners = BannerRepository.getBanners()
+            val allBanners = bannerRepository.getBanners()
             val filtered = if (type == null) {
                 allBanners
             } else {

@@ -3,8 +3,16 @@ package com.saxpenguin.umamusumefuturesight.data
 import com.saxpenguin.umamusumefuturesight.model.Banner
 import com.saxpenguin.umamusumefuturesight.model.BannerType
 import java.time.LocalDate
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object BannerRepository {
+/**
+ * Repository for banner data management.
+ * Currently uses mock data for demonstration.
+ * TODO: Replace with Room/Retrofit implementation when configured.
+ */
+@Singleton
+class BannerRepository @Inject constructor() {
     // 這裡先使用 Mock Data (模擬數據)
     // 實際上這些資料可以從網路 API 或本地 JSON 讀取
     

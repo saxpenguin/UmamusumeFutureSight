@@ -9,7 +9,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.saxpenguin.umamusumefuturesight.ui.MainScreen
 import com.saxpenguin.umamusumefuturesight.ui.theme.UmamusumeFutureSightTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Main entry point of the application.
+ * Annotated with @AndroidEntryPoint to enable Hilt dependency injection.
+ */
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
