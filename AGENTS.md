@@ -191,12 +191,13 @@ test: add BannerRepository unit tests
 - **Compose:** Compiler 1.4.6, BOM 2023.08.00
 
 ### Future Dependencies
-- **DI:** Hilt (not yet configured)
-- **Networking:** Retrofit + OkHttp + Kotlinx Serialization
-- **Storage:** Room
-- **Images:** Coil
-- **Testing:** MockK, Turbine
+- **DI:** Hilt (Configured)
+- **Networking:** Retrofit + OkHttp + Kotlinx Serialization (Configured)
+- **Storage:** Room (Configured)
+- **Images:** Coil (Configured)
+- **Testing:** MockK, Turbine (Configured)
 
 ---
 
-**Note:** This project is in early development. Test directories and DI configuration need to be added.
+**Note:** This project is in active development. All core infrastructure (DI, Networking, Storage) has been set up.
+

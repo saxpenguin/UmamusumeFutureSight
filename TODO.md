@@ -57,12 +57,12 @@
     - [x] Run tests and verify coverage
 
 ## Phase 5: Polish & Release
-- [ ] **Visuals**
-    - [ ] Add App Icon
-    - [ ] Add Splash Screen
-    - [ ] Refine Material3 Theme (Colors, Typography)
-    - [ ] Support Dark/Light mode
-- [ ] **Build Configuration**
-    - [ ] Configure ProGuard/R8 rules
-    - [ ] Setup Signing Config for release
-    - [ ] Generate Signed APK/AAB
+- [x] **Visuals**
+    - [x] Add App Icon
+    - [x] Add Splash Screen
+    - [x] Refine Material3 Theme (Colors, Typography)
+    - [x] Support Dark/Light mode
+- [x] **Build Configuration**
+    - [x] Configure ProGuard/R8 rules
+    - [x] Setup Signing Config for release
+    - [x] Generate Signed APK/AAB
