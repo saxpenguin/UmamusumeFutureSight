@@ -111,4 +111,8 @@ class BannerRepository @Inject constructor(
             }
         }
     }
+    
+    suspend fun getTargetBanners(): List<Banner> {
+        return getBanners().filter { it.isTarget }
+    }
 }
