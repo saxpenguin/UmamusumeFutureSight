@@ -30,24 +30,24 @@
     - [x] Implement `BannerRepository` with basic setup
     - [x] Create data models for Banner info (Type, Dates, Featured Characters)
     - [x] Implement caching logic (Room/Retrofit)
-- [ ] **UI - Banner List**
+- [x] **UI - Banner List**
     - [x] Design Banner List Item card (Image, Title, Date range)
     - [x] Implement filtering (Character/Support Card)
     - [x] Implement sorting (Date, Type)
     - [x] Add loading and error states
-- [ ] **UI - Banner Detail**
+- [x] **UI - Banner Detail**
     - [x] Create Detail Screen
     - [x] Display featured characters/cards details
     - [x] Add "link to wiki/external site" functionality
 
 ## Phase 3: Future Planning Utilities
-- [ ] **Resource Management**
+- [x] **Resource Management**
     - [x] Create data model for User Resources (Jewels, Tickets)
     - [x] Implement "Resource Calculator" logic
 - [ ] **Planning UI**
     - [x] Create Planner Screen
-    - [ ] Allow users to mark "Target Banners"
-    - [x] Calculate estimated savings by banner date
+    - [x] Allow users to mark "Target Banners" (Save to local DB)
+    - [ ] Calculate estimated savings by banner date (Integrate Calculator with Target Banners)
 
 ## Phase 4: Testing & Quality
 - [ ] **Unit Tests**

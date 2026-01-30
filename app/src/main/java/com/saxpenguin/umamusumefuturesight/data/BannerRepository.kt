@@ -72,6 +72,12 @@ class BannerRepository @Inject constructor(
         )
     )
 
+    suspend fun toggleTargetStatus(bannerId: String, currentStatus: Boolean) {
+        withContext(Dispatchers.IO) {
+            bannerDao.updateTargetStatus(bannerId, !currentStatus)
+        }
+    }
+
     suspend fun getBanners(): List<Banner> {
         return withContext(Dispatchers.IO) {
             try {

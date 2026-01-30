@@ -16,4 +16,7 @@ interface BannerDao {
 
     @Query("DELETE FROM banners")
     suspend fun clearAll()
+
+    @Query("UPDATE banners SET isTarget = :isTarget WHERE id = :bannerId")
+    suspend fun updateTargetStatus(bannerId: String, isTarget: Boolean)
 }

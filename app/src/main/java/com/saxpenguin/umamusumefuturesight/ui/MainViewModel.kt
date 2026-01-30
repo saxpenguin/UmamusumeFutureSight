@@ -79,6 +79,22 @@ class MainViewModel @Inject constructor(
         _uiState.update { it.copy(offsetDays = days) }
     }
 
+    fun toggleTarget(banner: Banner) {
+        viewModelScope.launch {
+            try {
+                bannerRepository.toggleTargetStatus(banner.id, banner.isTarget)
+                
+                // Update local cache and UI
+                allBannersCache = allBannersCache.map {
+                    if (it.id == banner.id) it.copy(isTarget = !it.isTarget) else it
+                }
+                updateUi()
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = "無法更新追蹤狀態: ${e.localizedMessage}") }
+            }
+        }
+    }
+
     private fun updateUi() {
         _uiState.update { currentState ->
             var list = allBannersCache

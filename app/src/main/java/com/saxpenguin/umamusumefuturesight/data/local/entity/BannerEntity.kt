@@ -14,7 +14,8 @@ data class BannerEntity(
     val jpStartDate: LocalDate,
     val jpEndDate: LocalDate,
     val imageUrl: String? = null,
-    val linkUrl: String? = null
+    val linkUrl: String? = null,
+    val isTarget: Boolean = false
 )
 
 fun BannerEntity.toDomainModel(): Banner {
@@ -25,7 +26,8 @@ fun BannerEntity.toDomainModel(): Banner {
         jpStartDate = jpStartDate,
         jpEndDate = jpEndDate,
         imageUrl = imageUrl,
-        linkUrl = linkUrl
+        linkUrl = linkUrl,
+        isTarget = isTarget
     )
 }
 
@@ -37,6 +39,7 @@ fun Banner.toEntity(): BannerEntity {
         jpStartDate = jpStartDate,
         jpEndDate = jpEndDate,
         imageUrl = imageUrl,
-        linkUrl = linkUrl
+        linkUrl = linkUrl,
+        isTarget = isTarget
     )
 }

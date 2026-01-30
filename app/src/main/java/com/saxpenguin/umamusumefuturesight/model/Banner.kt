@@ -19,7 +19,8 @@ data class Banner(
     @Serializable(with = LocalDateSerializer::class)
     val jpEndDate: LocalDate,
     val imageUrl: String? = null, // Placeholder for future image
-    val linkUrl: String? = null
+    val linkUrl: String? = null,
+    val isTarget: Boolean = false
 ) {
     // 根據 OFFSET_DAYS 自動計算台版預計日期
     fun getTwStartDate(offsetDays: Long = 490): LocalDate {

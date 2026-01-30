@@ -2,6 +2,8 @@ package com.saxpenguin.umamusumefuturesight.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -124,7 +126,8 @@ fun BannerListScreen(
                 BannerList(
                     banners = uiState.banners,
                     offsetDays = uiState.offsetDays,
-                    onBannerClick = onBannerClick
+                    onBannerClick = onBannerClick,
+                    onTargetClick = { viewModel.toggleTarget(it) }
                 )
             }
         }
@@ -165,7 +168,8 @@ fun FilterChips(
 fun BannerList(
     banners: List<Banner>,
     offsetDays: Long,
-    onBannerClick: (String) -> Unit
+    onBannerClick: (String) -> Unit,
+    onTargetClick: (Banner) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
@@ -175,7 +179,8 @@ fun BannerList(
             BannerCard(
                 banner = banner,
                 offsetDays = offsetDays,
-                onClick = { onBannerClick(banner.id) }
+                onClick = { onBannerClick(banner.id) },
+                onTargetClick = { onTargetClick(banner) }
             )
         }
     }
@@ -185,7 +190,8 @@ fun BannerList(
 fun BannerCard(
     banner: Banner,
     offsetDays: Long,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onTargetClick: () -> Unit
 ) {
     val twStartDate = banner.getTwStartDate(offsetDays)
     val daysUntil = ChronoUnit.DAYS.between(LocalDate.now(), twStartDate)
@@ -233,11 +239,29 @@ fun BannerCard(
                 
                 Spacer(modifier = Modifier.height(8.dp))
                 
-                Text(
-                    text = banner.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = banner.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    
+                    IconButton(
+                        onClick = onTargetClick,
+                        modifier = Modifier.size(32.dp)
+                    ) {
+                        Icon(
+                            imageVector = if (banner.isTarget) Icons.Default.Star else Icons.Default.StarBorder,
+                            contentDescription = if (banner.isTarget) "取消追蹤" else "追蹤",
+                            tint = if (banner.isTarget) MaterialTheme.colorScheme.primary else Color.Gray
+                        )
+                    }
+                }
                 
                 Spacer(modifier = Modifier.height(12.dp))
                 
