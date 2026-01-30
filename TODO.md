@@ -6,10 +6,10 @@
     - [x] Create Application class annotated with `@HiltAndroidApp`
     - [x] Configure `AndroidManifest.xml` to use the application class
     - [x] Set up basic Hilt modules (`AppModule`, `DataModule`)
-- [ ] **Navigation**
-    - [ ] Add `androidx.navigation:navigation-compose` dependency
-    - [ ] Set up `NavHost` in `MainActivity`
-    - [ ] Define routes (e.g., `BannerList`, `BannerDetail`, `Planner`)
+- [x] **Navigation**
+    - [x] Add `androidx.navigation:navigation-compose` dependency
+    - [x] Set up `NavHost` in `MainActivity`
+    - [x] Define routes (e.g., `BannerList`, `BannerDetail`, `Planner`)
 - [ ] **Networking (Retrofit)**
     - [ ] Add Retrofit & OkHttp dependencies
     - [ ] Add Kotlinx Serialization dependency
@@ -27,11 +27,11 @@
 ## Phase 2: Core Feature - Banner Tracking
 - [x] **Data Layer**
     - [x] Implement `BannerRepository` with basic setup
-    - [ ] Create data models for Banner info (Type, Dates, Featured Characters) - Already done
+    - [x] Create data models for Banner info (Type, Dates, Featured Characters)
     - [ ] Implement caching logic (Room/Retrofit)
 - [ ] **UI - Banner List**
-    - [ ] Design Banner List Item card (Image, Title, Date range)
-    - [ ] Implement filtering (Character/Support Card)
+    - [x] Design Banner List Item card (Image, Title, Date range)
+    - [x] Implement filtering (Character/Support Card)
     - [ ] Implement sorting (Date, Type)
     - [ ] Add loading and error states
 - [ ] **UI - Banner Detail**

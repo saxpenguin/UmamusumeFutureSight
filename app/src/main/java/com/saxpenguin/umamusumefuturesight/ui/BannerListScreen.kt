@@ -1,6 +1,6 @@
 package com.saxpenguin.umamusumefuturesight.ui
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.saxpenguin.umamusumefuturesight.model.Banner
 import com.saxpenguin.umamusumefuturesight.model.BannerType
 import com.saxpenguin.umamusumefuturesight.ui.theme.UmamusumeFutureSightTheme
@@ -23,8 +23,9 @@ import java.time.temporal.ChronoUnit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(
-    viewModel: MainViewModel = viewModel()
+fun BannerListScreen(
+    onBannerClick: (String) -> Unit,
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -51,7 +52,8 @@ fun MainScreen(
             
             BannerList(
                 banners = uiState.banners,
-                offsetDays = uiState.offsetDays
+                offsetDays = uiState.offsetDays,
+                onBannerClick = onBannerClick
             )
         }
     }
@@ -90,14 +92,19 @@ fun FilterChips(
 @Composable
 fun BannerList(
     banners: List<Banner>,
-    offsetDays: Long
+    offsetDays: Long,
+    onBannerClick: (String) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(banners) { banner ->
-            BannerCard(banner = banner, offsetDays = offsetDays)
+            BannerCard(
+                banner = banner,
+                offsetDays = offsetDays,
+                onClick = { onBannerClick(banner.id) }
+            )
         }
     }
 }
@@ -105,14 +112,17 @@ fun BannerList(
 @Composable
 fun BannerCard(
     banner: Banner,
-    offsetDays: Long
+    offsetDays: Long,
+    onClick: () -> Unit
 ) {
     val twStartDate = banner.getTwStartDate(offsetDays)
     val daysUntil = ChronoUnit.DAYS.between(LocalDate.now(), twStartDate)
     
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -202,8 +212,8 @@ fun DateInfo(label: String, date: LocalDate, isHighlight: Boolean = false) {
 
 @Preview(showBackground = true)
 @Composable
-fun MainScreenPreview() {
+fun BannerListScreenPreview() {
     UmamusumeFutureSightTheme {
-        MainScreen()
+        BannerListScreen(onBannerClick = {})
     }
 }
