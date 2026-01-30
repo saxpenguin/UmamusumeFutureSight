@@ -13,10 +13,19 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+enum class SortOption {
+    DATE_ASC,
+    DATE_DESC,
+    TYPE
+}
+
 data class MainUiState(
     val banners: List<Banner> = emptyList(),
     val filterType: BannerType? = null, // null means show all
-    val offsetDays: Long = 490
+    val sortOption: SortOption = SortOption.DATE_ASC,
+    val offsetDays: Long = 490,
+    val isLoading: Boolean = false,
+    val error: String? = null
 )
 
 /**
@@ -28,36 +37,65 @@ class MainViewModel @Inject constructor(
     private val bannerRepository: BannerRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(MainUiState())
+    private val _uiState = MutableStateFlow(MainUiState(isLoading = true))
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+
+    private var allBannersCache: List<Banner> = emptyList()
 
     init {
         loadBanners()
     }
 
-    private fun loadBanners() {
+    fun loadBanners() {
         viewModelScope.launch {
-            val allBanners = bannerRepository.getBanners()
-            // 預設先顯示所有
-            _uiState.update { it.copy(banners = allBanners) }
-        }
-    }
-
-    fun setFilter(type: BannerType?) {
-        viewModelScope.launch {
-            val allBanners = bannerRepository.getBanners()
-            _uiState.update { currentState ->
-                val filtered = if (type == null) {
-                    allBanners
-                } else {
-                    allBanners.filter { it.type == type }
-                }
-                currentState.copy(filterType = type, banners = filtered)
+            _uiState.update { it.copy(isLoading = true, error = null) }
+            try {
+                // Simulate network delay for demonstration purposes (remove in production)
+                // kotlinx.coroutines.delay(1000) 
+                
+                allBannersCache = bannerRepository.getBanners()
+                updateUi()
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isLoading = false, error = e.localizedMessage ?: "Unknown error occurred") }
             }
         }
     }
 
+    fun refresh() {
+        loadBanners()
+    }
+
+    fun setFilter(type: BannerType?) {
+        _uiState.update { it.copy(filterType = type) }
+        updateUi()
+    }
+
+    fun setSort(option: SortOption) {
+        _uiState.update { it.copy(sortOption = option) }
+        updateUi()
+    }
+
     fun updateOffset(days: Long) {
         _uiState.update { it.copy(offsetDays = days) }
+    }
+
+    private fun updateUi() {
+        _uiState.update { currentState ->
+            var list = allBannersCache
+
+            // Filter
+            if (currentState.filterType != null) {
+                list = list.filter { it.type == currentState.filterType }
+            }
+
+            // Sort
+            list = when (currentState.sortOption) {
+                SortOption.DATE_ASC -> list.sortedBy { it.jpStartDate }
+                SortOption.DATE_DESC -> list.sortedByDescending { it.jpStartDate }
+                SortOption.TYPE -> list.sortedBy { it.type }
+            }
+
+            currentState.copy(banners = list, isLoading = false)
+        }
     }
 }

@@ -20,9 +20,10 @@
     - [x] Define Entity classes for Banners
     - [x] Create DAO interfaces
     - [x] Setup Room Database instance
-- [ ] **Image Loading (Coil)**
-    - [ ] Add Coil dependency
-    - [ ] Create reusable `NetworkImage` composable
+- [x] **Image Loading (Coil)**
+    - [x] Add Coil dependency
+    - [x] Create reusable `NetworkImage` composable
+
 
 ## Phase 2: Core Feature - Banner Tracking
 - [x] **Data Layer**
@@ -32,21 +33,21 @@
 - [ ] **UI - Banner List**
     - [x] Design Banner List Item card (Image, Title, Date range)
     - [x] Implement filtering (Character/Support Card)
-    - [ ] Implement sorting (Date, Type)
-    - [ ] Add loading and error states
+    - [x] Implement sorting (Date, Type)
+    - [x] Add loading and error states
 - [ ] **UI - Banner Detail**
-    - [ ] Create Detail Screen
-    - [ ] Display featured characters/cards details
-    - [ ] Add "link to wiki/external site" functionality
+    - [x] Create Detail Screen
+    - [x] Display featured characters/cards details
+    - [x] Add "link to wiki/external site" functionality
 
 ## Phase 3: Future Planning Utilities
 - [ ] **Resource Management**
-    - [ ] Create data model for User Resources (Jewels, Tickets)
-    - [ ] Implement "Resource Calculator" logic
+    - [x] Create data model for User Resources (Jewels, Tickets)
+    - [x] Implement "Resource Calculator" logic
 - [ ] **Planning UI**
-    - [ ] Create Planner Screen
+    - [x] Create Planner Screen
     - [ ] Allow users to mark "Target Banners"
-    - [ ] Calculate estimated savings by banner date
+    - [x] Calculate estimated savings by banner date
 
 ## Phase 4: Testing & Quality
 - [ ] **Unit Tests**
@@ -57,9 +58,6 @@
 - [ ] **UI Tests**
     - [ ] Write Compose instrumented tests for MainScreen
     - [ ] Test navigation flows
-- [ ] **CI/CD**
-    - [ ] Setup GitHub Actions for Build & Test
-    - [ ] Configure Lint checks on PR
 
 ## Phase 5: Polish & Release
 - [ ] **Visuals**
