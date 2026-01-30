@@ -1,5 +1,8 @@
 package com.saxpenguin.umamusumefuturesight.data
 
+import com.saxpenguin.umamusumefuturesight.data.local.BannerDao
+import com.saxpenguin.umamusumefuturesight.data.local.entity.toDomainModel
+import com.saxpenguin.umamusumefuturesight.data.local.entity.toEntity
 import com.saxpenguin.umamusumefuturesight.data.remote.BannerApiService
 import com.saxpenguin.umamusumefuturesight.model.Banner
 import com.saxpenguin.umamusumefuturesight.model.BannerType
@@ -15,7 +18,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class BannerRepository @Inject constructor(
-    private val apiService: BannerApiService
+    private val apiService: BannerApiService,
+    private val bannerDao: BannerDao
 ) {
     // 這裡先使用 Mock Data (模擬數據)
     // 實際上這些資料可以從網路 API 或本地 JSON 讀取
@@ -59,17 +63,36 @@ class BannerRepository @Inject constructor(
     )
 
     suspend fun getBanners(): List<Banner> {
-        return try {
-             // In a real app, we would fetch from the API.
-             // For now, we'll just return the mock data to keep the app working
-             // until we have a real backend.
-             // return apiService.getBanners()
-             withContext(Dispatchers.IO) {
-                 mockBanners
-             }
-        } catch (e: Exception) {
-            // Fallback to mock data or empty list on error
-            mockBanners
+        return withContext(Dispatchers.IO) {
+            try {
+                // 1. Try to fetch from local DB
+                val localBanners = bannerDao.getAllBanners()
+                
+                if (localBanners.isNotEmpty()) {
+                     // In a real scenario, we might want to check if data is stale here
+                     // For now, if we have local data, return it, but also try to refresh in background
+                     // or just return local data and let the user manually refresh.
+                     // A simple strategy: return local, but if empty, fetch remote.
+                     return@withContext localBanners.map { it.toDomainModel() }
+                }
+
+                // 2. If local DB is empty, fetch from remote (or mock)
+                // In a real app: val remoteBanners = apiService.getBanners()
+                val remoteBanners = mockBanners
+
+                // 3. Save to local DB
+                bannerDao.insertAll(remoteBanners.map { it.toEntity() })
+                
+                remoteBanners
+            } catch (e: Exception) {
+                // Fallback to local data if network fails (if we haven't checked it yet)
+                val localBanners = bannerDao.getAllBanners()
+                if (localBanners.isNotEmpty()) {
+                    localBanners.map { it.toDomainModel() }
+                } else {
+                    mockBanners // Ultimate fallback
+                }
+            }
         }
     }
 }

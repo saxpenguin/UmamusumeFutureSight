@@ -15,11 +15,11 @@
     - [x] Add Kotlinx Serialization dependency
     - [x] Create API interface definitions
     - [x] Configure Retrofit instance in Hilt module
-- [ ] **Local Database (Room)**
-    - [ ] Add Room dependencies (runtime, ktx, compiler)
-    - [ ] Define Entity classes for Banners
-    - [ ] Create DAO interfaces
-    - [ ] Setup Room Database instance
+- [x] **Local Database (Room)**
+    - [x] Add Room dependencies (runtime, ktx, compiler)
+    - [x] Define Entity classes for Banners
+    - [x] Create DAO interfaces
+    - [x] Setup Room Database instance
 - [ ] **Image Loading (Coil)**
     - [ ] Add Coil dependency
     - [ ] Create reusable `NetworkImage` composable
@@ -28,7 +28,7 @@
 - [x] **Data Layer**
     - [x] Implement `BannerRepository` with basic setup
     - [x] Create data models for Banner info (Type, Dates, Featured Characters)
-    - [ ] Implement caching logic (Room/Retrofit)
+    - [x] Implement caching logic (Room/Retrofit)
 - [ ] **UI - Banner List**
     - [x] Design Banner List Item card (Image, Title, Date range)
     - [x] Implement filtering (Character/Support Card)
