@@ -44,20 +44,17 @@
 - [x] **Resource Management**
     - [x] Create data model for User Resources (Jewels, Tickets)
     - [x] Implement "Resource Calculator" logic
-- [ ] **Planning UI**
+- [x] **Planning UI**
     - [x] Create Planner Screen
     - [x] Allow users to mark "Target Banners" (Save to local DB)
-    - [ ] Calculate estimated savings by banner date (Integrate Calculator with Target Banners)
+    - [x] Calculate estimated savings by banner date (Integrate Calculator with Target Banners)
 
 ## Phase 4: Testing & Quality
-- [ ] **Unit Tests**
-    - [ ] Setup JUnit 5 (optional) or JUnit 4
-    - [ ] Add MockK and Turbine dependencies
-    - [ ] Write tests for `BannerRepository`
-    - [ ] Write tests for ViewModels
-- [ ] **UI Tests**
-    - [ ] Write Compose instrumented tests for MainScreen
-    - [ ] Test navigation flows
+- [x] **Unit Tests**
+    - [x] Setup JUnit 4 and Test Dependencies (MockK, Turbine)
+    - [x] Write tests for `BannerRepository`
+    - [x] Write tests for ViewModels
+    - [x] Run tests and verify coverage
 
 ## Phase 5: Polish & Release
 - [ ] **Visuals**
