@@ -2,202 +2,177 @@
 
 ## Project Overview
 
-Umamusume Future Sight - An Android application built with Jetpack Compose.
+Umamusume Future Sight is an Android app built with Jetpack Compose.
+Repository is in early development with MVVM scaffolding.
 
-**Current Status:** Initial development phase with basic MVVM architecture scaffolded.
+## 1. Build, Lint, Test
 
-## 1. Build & Test Commands
-
-### Prerequisites
-- Android Studio Hedgehog (2023.1.1) or later
-- JDK 17 or later
+### Prereqs
+- Android Studio Hedgehog (2023.1.1)+
+- JDK 17
 - Android SDK 34 (compileSdk)
 
-### Build Commands
+### Build
 ```bash
-./gradlew assembleDebug          # Build debug APK
-./gradlew assembleRelease        # Build release APK
-./gradlew clean                  # Clean build artifacts
-./gradlew clean build            # Full clean build
+./gradlew assembleDebug
+./gradlew assembleRelease
+./gradlew clean
+./gradlew clean build
 ```
 
-### Test Commands
-**Important:** Test directories (`test/` and `androidTest/`) need to be created under `app/src/`.
-
+### Unit Tests
 ```bash
-./gradlew test                   # Run all unit tests
-./gradlew testDebugUnitTest      # Run debug unit tests only
+./gradlew test
+./gradlew testDebugUnitTest
 ./gradlew testDebugUnitTest --tests "com.saxpenguin.umamusumefuturesight.data.BannerRepositoryTest"
 ./gradlew testDebugUnitTest --tests "com.saxpenguin.umamusumefuturesight.data.BannerRepositoryTest.testFetchBanners"
-./gradlew connectedAndroidTest   # Run instrumented tests (requires device/emulator)
+```
+
+### Instrumented Tests
+```bash
+./gradlew connectedAndroidTest
 ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.saxpenguin.umamusumefuturesight.MainActivityTest
 ```
 
-### Lint Commands
+### Lint
 ```bash
-./gradlew lintDebug              # Run lint on debug variant
-./gradlew lintRelease            # Run lint on release variant
-./gradlew lint                   # Generate lint report
+./gradlew lintDebug
+./gradlew lintRelease
+./gradlew lint
 ```
 
-## 2. Code Style & Standards
+### Coverage
+```bash
+./gradlew testDebugUnitTestCoverage
+```
 
-### Language
-- **Primary:** Kotlin (strictly avoid Java for new code)
-- **Target JVM:** 1.8, **Kotlin:** 1.8.20
-- **Style Guide:** [Official Kotlin Style Guide](https://developer.android.com/kotlin/style-guide)
+## 2. Code Style & Architecture
+
+### Language and Tooling
+- Kotlin only for new code (avoid Java).
+- Kotlin 1.8.20, JVM target 17.
+- Follow the official Kotlin style guide.
 
 ### Formatting
-- **Indentation:** 4 spaces (no tabs)
-- **Line Length:** 100 (soft), 120 (hard limit)
-- **Braces:** Required for all control structures
-- **Trailing Commas:** Required in multi-line parameter lists
+- 4 spaces, no tabs.
+- Line length: 100 soft, 120 hard.
+- Braces required for all control structures.
+- Trailing commas required in multi-line parameter lists.
 
 ### Imports
+- No wildcard imports.
+- Sort alphabetically within groups.
+- Separate Android/system, project, and third-party groups with blank lines.
+
+Example:
 ```kotlin
-// CORRECT - No wildcards, sorted alphabetically, groups separated by blank line
 import android.content.Context
 import android.os.Bundle
 
 import com.saxpenguin.umamusumefuturesight.model.Banner
 import com.saxpenguin.umamusumefuturesight.ui.MainScreen
-import kotlinx.coroutines.flow.Flow
 
-// INCORRECT - Wildcard imports
-import android.content.*
-import com.saxpenguin.umamusumefuturesight.*
+import kotlinx.coroutines.flow.Flow
 ```
 
-**Rules:**
-- No wildcard imports (`import foo.*`)
-- Sort alphabetically within groups
-- Separate Android/system imports from project imports
-- Separate project imports from third-party library imports
-
-### Architecture
-- **Pattern:** MVVM (Model-View-ViewModel)
-- **UI:** Jetpack Compose with Material3
-- **State:** Compose State + ViewModel
-- **Concurrency:** Kotlin Coroutines and Flow
-- **Package Structure:**
+### Project Structure
 ```
 com.saxpenguin.umamusumefuturesight/
 ├── data/        # Repositories, data sources, API clients
 ├── model/       # Domain models and data classes
 ├── ui/          # Compose screens, ViewModels, components
-│   └── theme/   # Theme definitions (Color, Theme, Type)
-└── di/          # Dependency Injection (to be added)
+│   └── theme/   # Theme definitions
+└── di/          # Dependency Injection
 ```
 
-### Naming Conventions
-- **Classes/Objects:** `PascalCase` (e.g., `BannerRepository`, `MainViewModel`)
-- **Functions/Variables:** `camelCase` (e.g., `fetchBanners`, `isLoading`)
-- **Constants:** `UPPER_SNAKE_CASE` (e.g., `MAX_RETRY_COUNT`, `BASE_URL`)
-- **Composables:** `PascalCase` noun-like (e.g., `MainScreen`, `BannerCard`)
-- **XML Resources:** `snake_case` (e.g., `activity_main`)
+### Architecture
+- MVVM with Compose + Material3.
+- State: Compose state + ViewModel.
+- Concurrency: Coroutines and Flow.
+
+### Naming
+- Classes/objects: `PascalCase`.
+- Functions/variables: `camelCase`.
+- Constants: `UPPER_SNAKE_CASE`.
+- Composables: `PascalCase`, noun-like.
+- XML resources: `snake_case`.
 
 ### Type Safety
-- **Never use `!!`** - use `?.let`, `?:`, or smart casts instead
-- Explicit return types required for public API methods
-- Use `Result<T>` or sealed classes for operation results
+- Never use `!!`.
+- Public API methods must have explicit return types.
+- Prefer `Result<T>` or sealed classes for operation results.
 
+Example:
 ```kotlin
-// CORRECT
 fun fetchBanner(id: String): Result<Banner> = runCatching {
     apiService.getBanner(id)
 }
-val banner = bannerRepository.getBanner(id).getOrNull() ?: return
-
-// INCORRECT
-fun fetchBanner(id: String): Banner? = apiService.getBanner(id)!!
 ```
 
 ### Error Handling
-- Use `runCatching` for encapsulated failure handling
-- Never swallow exceptions - log them or propagate
-- Prefer sealed classes for domain errors
+- Use `runCatching` for encapsulated failures.
+- Do not swallow exceptions; log or propagate.
+- Prefer sealed classes for domain errors.
 
+Example:
 ```kotlin
 sealed class BannerError {
     data class NetworkError(val message: String) : BannerError()
     data class NotFound(val id: String) : BannerError()
 }
-
-fun fetchBanner(id: String): Result<Banner, BannerError> = runCatching {
-    apiService.getBanner(id)
-}.fold(
-    onSuccess = { Result.success(it) },
-    onFailure = { Result.failure(BannerError.NetworkError(it.message ?: "Unknown")) }
-)
 ```
 
-## 3. Documentation
-- **KDoc:** Required for all public classes and methods with non-obvious behavior
-- **Comments:** Explain *why*, not *what*. Code should be self-documenting
-- **Composable Previews:** Add `@Preview` annotations for UI components
+### Compose Guidelines
+- Add `@Preview` for UI components when feasible.
+- Keep Composables focused and testable; delegate side effects to ViewModels.
 
-```kotlin
-/**
- * Displays a scrollable list of banners with loading and error states.
- * @param banners List of banners to display
- * @param isLoading Whether data is currently loading
- * @param onBannerClick Callback when a banner is clicked
- */
-@Composable
-fun BannerList(
-    banners: List<Banner>,
-    isLoading: Boolean,
-    onBannerClick: (Banner) -> Unit
-) {
-    // Implementation
-}
-```
+### Documentation
+- KDoc required for public classes and methods with non-obvious behavior.
+- Comments explain why, not what.
 
-## 4. Git Conventions
+## 3. Testing Notes
+
+- Instrumentation runner: `com.saxpenguin.umamusumefuturesight.HiltTestRunner`.
+- Test directories need to exist under `app/src/test` and `app/src/androidTest`.
+- For single-test runs, use the fully-qualified class or method name with `--tests`.
+
+## 4. Dependencies and Stack
+
+- Gradle 8.2, AGP 8.0.2.
+- Compose compiler 1.4.6, BOM 2023.08.00.
+- DI: Hilt.
+- Storage: Room.
+- Networking: Retrofit, OkHttp, Kotlinx Serialization.
+- Images: Coil.
+- Testing: JUnit4, MockK, Turbine, Coroutines test.
+
+## 5. Git Conventions
 
 ### Commit Messages
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
+Use Conventional Commits:
 ```
 <type>: <description>
 ```
 
-**Types:**
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation changes
-- `style:` Code style changes (formatting)
-- `refactor:` Code refactoring
-- `test:` Adding/updating tests
-- `chore:` Build process changes
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`.
 
-**Examples:**
+Examples:
 ```
 feat: add banner detail screen
 fix: resolve race condition in repository
 chore: update Gradle to 8.2
-test: add BannerRepository unit tests
 ```
 
 ### Branching
 - Main: `main`
-- Features: `feature/banner-detail-screen`
-- Fixes: `fix/memory-leak-in-viewmodel`
+- Features: `feature/short-description`
+- Fixes: `fix/short-description`
 
-## 5. Project Configuration
+## 6. Security and Secrets
 
-### Tech Stack
-- **Gradle:** 8.2, **AGP:** 8.0.2, **Kotlin:** 1.8.20
-- **SDK:** Compile 34, Min 24, Target 34
-- **Compose:** Compiler 1.4.6, BOM 2023.08.00
+- Do not commit secrets.
+- `app/build.gradle.kts` contains placeholder signing config values; treat as local-only.
 
-### Future Dependencies
-- **DI:** Hilt (Configured)
-- **Networking:** Retrofit + OkHttp + Kotlinx Serialization (Configured)
-- **Storage:** Room (Configured)
-- **Images:** Coil (Configured)
-- **Testing:** MockK, Turbine (Configured)
+## 7. Cursor/Copilot Rules
 
----
-
-**Note:** This project is in active development. All core infrastructure (DI, Networking, Storage) has been set up.
-
+- No `.cursor/rules`, `.cursorrules`, or `.github/copilot-instructions.md` found.
