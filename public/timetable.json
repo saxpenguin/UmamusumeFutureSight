@@ -778,5 +778,171 @@
       "109401"
     ],
     "cardPool": []
+  },
+  {
+    "id": "162",
+    "jpStartDate": "2025/10/18",
+    "jpEndDate": "2025/10/29",
+    "twStartDate": "2027/2/20",
+    "twEndDate": "2027/3/3",
+    "charaPool": [
+      "109201"
+    ],
+    "cardPool": [
+      "自選特選支援卡片轉蛋"
+    ]
+  },
+  {
+    "id": "163",
+    "jpStartDate": "2025/10/29",
+    "jpEndDate": "2025/11/19",
+    "twStartDate": "2027/3/3",
+    "twEndDate": "2027/3/24",
+    "charaPool": [
+      "108002"
+    ],
+    "cardPool": [
+      "30276",
+      "30275"
+    ]
+  },
+  {
+    "id": "164",
+    "jpStartDate": "2025/11/10",
+    "jpEndDate": "2025/11/19",
+    "twStartDate": "2027/3/15",
+    "twEndDate": "2027/3/24",
+    "charaPool": [
+      "110002"
+    ],
+    "cardPool": [
+      "30277"
+    ]
+  },
+  {
+    "id": "165",
+    "jpStartDate": "2025/11/19",
+    "jpEndDate": "2025/11/28",
+    "twStartDate": "2027/3/24",
+    "twEndDate": "2027/4/2",
+    "charaPool": [
+      "111401"
+    ],
+    "cardPool": [
+      "自選特選支援卡片轉蛋"
+    ]
+  },
+  {
+    "id": "166",
+    "jpStartDate": "2025/11/28",
+    "jpEndDate": "2025/12/11",
+    "twStartDate": "2027/4/2",
+    "twEndDate": "2027/4/15",
+    "charaPool": [
+      "104902",
+      "111902"
+    ],
+    "cardPool": [
+      "30278",
+      "30279"
+    ]
+  },
+  {
+    "id": "167",
+    "jpStartDate": "2025/12/11",
+    "jpEndDate": "2026/1/8",
+    "twStartDate": "2027/4/15",
+    "twEndDate": "2027/5/13",
+    "charaPool": [
+      "100603"
+    ],
+    "cardPool": [
+      "30281"
+    ]
+  },
+  {
+    "id": "168",
+    "jpStartDate": "2025/12/21",
+    "jpEndDate": "2026/1/19",
+    "twStartDate": "2027/4/25",
+    "twEndDate": "2027/5/24",
+    "charaPool": [
+      "113501"
+    ],
+    "cardPool": [
+      "自選特選支援卡片轉蛋"
+    ]
+  },
+  {
+    "id": "169",
+    "jpStartDate": "2025/12/26",
+    "jpEndDate": "2026/1/8",
+    "twStartDate": "2027/4/30",
+    "twEndDate": "2027/5/13",
+    "charaPool": [
+      "106302",
+      "107602"
+    ],
+    "cardPool": [
+      "30282",
+      "30283"
+    ]
+  },
+  {
+    "id": "",
+    "jpStartDate": "2026/1/1",
+    "jpEndDate": "2026/1/19",
+    "twStartDate": "2027/5/6",
+    "twEndDate": "2027/5/24",
+    "charaPool": [
+      "111601"
+    ],
+    "cardPool": []
+  },
+  {
+    "id": "",
+    "jpStartDate": "2026/1/1",
+    "jpEndDate": "2026/1/19",
+    "twStartDate": "2027/5/6",
+    "twEndDate": "2027/5/24",
+    "charaPool": [
+      "111501"
+    ],
+    "cardPool": []
+  },
+  {
+    "id": "170",
+    "jpStartDate": "2026/1/8",
+    "jpEndDate": "2026/1/19",
+    "twStartDate": "2027/5/13",
+    "twEndDate": "2027/5/24",
+    "charaPool": [
+      "112402"
+    ],
+    "cardPool": [
+      "30285"
+    ]
+  },
+  {
+    "id": "171",
+    "jpStartDate": "2026/1/19",
+    "jpEndDate": "2026/1/30",
+    "twStartDate": "2027/5/24",
+    "twEndDate": "2027/6/4",
+    "charaPool": [
+      "113701"
+    ],
+    "cardPool": [
+      "自選特選支援卡片轉蛋"
+    ]
+  },
+  {
+    "id": "172",
+    "jpStartDate": "2026/1/30",
+    "jpEndDate": "2026/2/14",
+    "twStartDate": "2027/6/4",
+    "twEndDate": "2027/6/19",
+    "charaPool": ["110202", "101003"],
+    "cardPool": ["30286", "30287"]
   }
 ]

@@ -1,4 +1,36 @@
 {
+  "support_card_s_30287.png": {
+    "name": "新宇宙",
+    "type": "POWER"
+  },
+  "support_card_s_30286.png": {
+    "name": "待兼福來",
+    "type": "SPEED"
+  },
+  "support_card_s_30285.png": {
+    "name": "帝王光輝",
+    "type": "GUTS"
+  },
+  "support_card_s_30282.png": {
+    "name": "氣槽",
+    "type": "SPEED"
+  },
+  "support_card_s_30283.png": {
+    "name": "美妙姿勢",
+    "type": "POWER"
+  },
+  "support_card_s_30284.png": {
+    "name": "泡泡糖小子",
+    "type": "GUTS"
+  },
+  "support_card_s_30281.png": {
+    "name": "稻荷一",
+    "type": "STAMINA"
+  },
+  "support_card_s_30278.png": {
+    "name": "黃金船",
+    "type": "STAMINA"
+  },
   "support_card_s_30279.png": {
     "name": "超常駿驥",
     "type": "STAMINA"
