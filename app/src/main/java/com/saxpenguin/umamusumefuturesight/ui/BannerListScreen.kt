@@ -21,6 +21,7 @@ import com.saxpenguin.umamusumefuturesight.ui.theme.UmamusumeFutureSightTheme
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -219,19 +220,21 @@ fun BannerCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(140.dp)
+                        .height(140.dp),
+                    horizontalArrangement = Arrangement.Center // Center the cards
                 ) {
                     banner.featuredCards.take(displayCount).forEach { cardInfo ->
                         Box(
                             modifier = Modifier
-                                .weight(1f)
+                                .aspectRatio(1f) // 1:1 Aspect Ratio (Square)
                                 .fillMaxHeight()
+                                .padding(horizontal = 4.dp) // Add spacing between cards
                         ) {
                             if (cardInfo.imageUrl != null) {
                                 NetworkImage(
                                     url = cardInfo.imageUrl,
                                     contentDescription = cardInfo.name,
-                                    contentScale = if (displayCount == 1) ContentScale.Crop else ContentScale.Fit,
+                                    contentScale = ContentScale.Crop, // Always crop to fill the fixed box
                                     alignment = Alignment.TopCenter,
                                     modifier = Modifier.fillMaxSize()
                                 )
@@ -240,35 +243,75 @@ fun BannerCard(
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
+                                        .background(MaterialTheme.colorScheme.surfaceVariant) // Add background for fallback
                                         .padding(8.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Text(cardInfo.name)
+                                    Text(
+                                        text = cardInfo.name,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        maxLines = 3
+                                    )
                                 }
                             }
-
-                            // Type Icon Overlay
-                            if (banner.type == BannerType.SUPPORT_CARD && cardInfo.type != SupportCardType.UNKNOWN) {
-                                TypeIcon(
-                                    type = cardInfo.type,
-                                    modifier = Modifier
-                                        .align(Alignment.TopEnd)
-                                        .padding(4.dp)
-                                        .size(24.dp)
+                            
+                            // Name Overlay
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.BottomStart)
+                                    .fillMaxWidth()
+                                    .background(Color.Black.copy(alpha = 0.6f))
+                                    .padding(4.dp)
+                            ) {
+                                Text(
+                                    text = cardInfo.name,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = Color.White,
+                                    maxLines = 1,
+                                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                                 )
+                            }
+
+                            // Type Display Overlay (Top Right)
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(4.dp)
+                            ) {
+                                if (banner.type == BannerType.SUPPORT_CARD && cardInfo.type != SupportCardType.UNKNOWN) {
+                                    TypeIcon(
+                                        type = cardInfo.type,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                } else {
+                                    // Show Badge for Characters or Supports without specific type icon
+                                    Badge(type = banner.type)
+                                }
                             }
                         }
                     }
                 }
             } else if (banner.imageUrl != null) {
                 // Fallback to single main image if featuredCards is empty
-                NetworkImage(
-                    url = banner.imageUrl,
-                    contentDescription = banner.name,
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(140.dp)
-                )
+                ) {
+                    NetworkImage(
+                        url = banner.imageUrl,
+                        contentDescription = banner.name,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    // Overlay badge on main banner image too
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(8.dp)
+                    ) {
+                        Badge(type = banner.type)
+                    }
+                }
             }
             
             Column(
@@ -280,8 +323,7 @@ fun BannerCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Badge(type = banner.type)
-                    if (daysUntil >= 0) {
+                     if (daysUntil >= 0) {
                          Text(
                             text = "還有 $daysUntil 天",
                             color = MaterialTheme.colorScheme.primary,
@@ -294,22 +336,7 @@ fun BannerCard(
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
-                }
-                
-                Spacer(modifier = Modifier.height(8.dp))
-                
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = banner.name,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(1f)
-                    )
-                    
+
                     IconButton(
                         onClick = onTargetClick,
                         modifier = Modifier.size(32.dp)
