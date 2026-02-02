@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+import java.time.LocalDate
+
 enum class SortOption {
     DATE_ASC,
     DATE_DESC,
@@ -22,6 +24,7 @@ enum class SortOption {
 data class MainUiState(
     val banners: List<Banner> = emptyList(),
     val filterType: BannerType? = null, // null means show all
+    val showExpired: Boolean = false, // Whether to show expired banners
     val sortOption: SortOption = SortOption.DATE_ASC,
     val offsetDays: Long = 490,
     val isLoading: Boolean = false,
@@ -70,6 +73,11 @@ class MainViewModel @Inject constructor(
         updateUi()
     }
 
+    fun toggleShowExpired() {
+        _uiState.update { it.copy(showExpired = !it.showExpired) }
+        updateUi()
+    }
+
     fun setSort(option: SortOption) {
         _uiState.update { it.copy(sortOption = option) }
         updateUi()
@@ -102,6 +110,15 @@ class MainViewModel @Inject constructor(
             // Filter
             if (currentState.filterType != null) {
                 list = list.filter { it.type == currentState.filterType }
+            }
+
+            // Filter expired
+            if (!currentState.showExpired) {
+                val today = LocalDate.now()
+                list = list.filter {
+                    val twEndDate = it.getTwEndDate(currentState.offsetDays)
+                    twEndDate.isAfter(today) || twEndDate.isEqual(today)
+                }
             }
 
             // Sort

@@ -97,6 +97,21 @@ fun BannerListScreen(
                                 }
                             }
                         )
+                        Divider()
+                        DropdownMenuItem(
+                            text = { Text(if (uiState.showExpired) "隱藏已過期" else "顯示已過期") },
+                            onClick = {
+                                viewModel.toggleShowExpired()
+                                // Keep menu open or close it? usually toggle settings might keep it open, but simple behavior is close
+                                // Let's keep it consistent with other actions and close it, or user can re-open.
+                                // Actually, for a toggle, it's often nicer to see the change. But let's close for now.
+                            },
+                            leadingIcon = {
+                                if (uiState.showExpired) {
+                                    Text("✓")
+                                }
+                            }
+                        )
                     }
                 }
             )
@@ -204,7 +219,9 @@ fun BannerCard(
     onTargetClick: () -> Unit
 ) {
     val twStartDate = banner.getTwStartDate(offsetDays)
-    val daysUntil = ChronoUnit.DAYS.between(LocalDate.now(), twStartDate)
+    val twEndDate = banner.getTwEndDate(offsetDays)
+    val today = LocalDate.now()
+    val daysUntil = ChronoUnit.DAYS.between(today, twStartDate)
     
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -323,17 +340,24 @@ fun BannerCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                     if (daysUntil >= 0) {
+                     if (daysUntil > 0) {
                          Text(
                             text = "還有 $daysUntil 天",
                             color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.Bold
                         )
-                    } else {
+                    } else if (today.isAfter(twEndDate)) {
                          Text(
-                            text = "已結束 / 進行中",
+                            text = "已結束",
                             color = Color.Gray,
                             style = MaterialTheme.typography.bodySmall
+                        )
+                    } else {
+                        val daysRemaining = ChronoUnit.DAYS.between(today, twEndDate)
+                         Text(
+                            text = "進行中 (剩餘 $daysRemaining 天)",
+                            color = MaterialTheme.colorScheme.tertiary, // Use a highlight color for active
+                            fontWeight = FontWeight.Bold
                         )
                     }
 
