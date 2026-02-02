@@ -1,4 +1,12 @@
 {
+  "support_card_s_30287.png": {
+    "name": "新宇宙",
+    "type": "POWER"
+  },
+  "support_card_s_30286.png": {
+    "name": "待兼福來",
+    "type": "SPEED"
+  },
   "support_card_s_30285.png": {
     "name": "帝王光輝",
     "type": "GUTS"

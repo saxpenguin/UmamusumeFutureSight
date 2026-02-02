@@ -48,9 +48,9 @@ class BannerSeedDataSource @Inject constructor(
 
             if (charaNames.isNotEmpty()) {
                 val resolvedCards = charaNames.map { name ->
-                    val (resName, _) = resolveImageUrlAndType(name, charaLookup) ?: (null to null)
+                    val (resName, _, resolvedName) = resolveImageUrlAndType(name, charaLookup) ?: Triple(null, null, null)
                     BannerCardInfo(
-                        name = name,
+                        name = resolvedName ?: name,
                         type = SupportCardType.UNKNOWN, // Characters don't have types like Speed/Stamina in this context
                         imageUrl = resName
                     )
@@ -74,7 +74,7 @@ class BannerSeedDataSource @Inject constructor(
                 
                 val resolvedCards = normalizedCardNames.mapIndexed { idx, name ->
                      val rawName = if (idx < cardNames.size) cardNames[idx] else name
-                     val (resName, typeStr) = resolveImageUrlAndType(name, cardLookup) ?: (null to null)
+                     val (resName, typeStr, resolvedName) = resolveImageUrlAndType(name, cardLookup) ?: Triple(null, null, null)
                      val cardType = try {
                          if (typeStr != null) SupportCardType.valueOf(typeStr) else SupportCardType.UNKNOWN
                      } catch (e: Exception) {
@@ -82,7 +82,7 @@ class BannerSeedDataSource @Inject constructor(
                      }
                      
                      BannerCardInfo(
-                         name = rawName,
+                         name = resolvedName ?: rawName,
                          type = cardType,
                          imageUrl = resName
                      )
@@ -112,13 +112,27 @@ class BannerSeedDataSource @Inject constructor(
          }.getOrDefault(emptyMap())
     }
 
-    private fun buildCharacterLookup(source: Map<String, String>): Map<String, Pair<String, String>> {
-        val lookup = mutableMapOf<String, Pair<String, String>>()
+    private fun buildCharacterLookup(source: Map<String, String>): Map<String, Triple<String, String, String>> {
+        val lookup = mutableMapOf<String, Triple<String, String, String>>()
         for ((fileName, displayName) in source) {
             val normalized = normalizeName(displayName)
             val resourceName = fileName.removeSuffix(".png")
+            val entry = Triple(resourceName, "UNKNOWN", displayName) // Store display name
+            
             if (normalized.isNotEmpty() && !lookup.containsKey(normalized)) {
-                lookup[normalized] = resourceName to "UNKNOWN"
+                lookup[normalized] = entry
+            }
+            // Add direct Name lookup
+            lookup[displayName.trim()] = entry
+            
+            // Extract ID from filename: chara_stand_1124_112402.png -> 112402
+            val parts = resourceName.split("_")
+            if (parts.size >= 4) {
+                 // parts[0]=chara, parts[1]=stand, parts[2]=1124, parts[3]=112402
+                 val specificId = parts.lastOrNull()
+                 if (!specificId.isNullOrEmpty()) {
+                     lookup[specificId] = entry
+                 }
             }
         }
         return lookup
@@ -132,7 +146,6 @@ class BannerSeedDataSource @Inject constructor(
 
     @Serializable
     private data class CardInfo(
-
         val name: String,
         val type: String
     )
@@ -153,14 +166,28 @@ class BannerSeedDataSource @Inject constructor(
         }.getOrDefault(emptyMap())
     }
 
-    private fun buildLookup(source: Map<String, CardInfo>): Map<String, Pair<String, String>> {
-        val lookup = mutableMapOf<String, Pair<String, String>>()
+    private fun buildLookup(source: Map<String, CardInfo>): Map<String, Triple<String, String, String>> {
+        val lookup = mutableMapOf<String, Triple<String, String, String>>()
         for ((fileName, info) in source) {
             val normalized = normalizeName(info.name)
             val resourceName = fileName.removeSuffix(".png")
+            val entry = Triple(resourceName, info.type, info.name) // Store display name
+
             if (normalized.isNotEmpty() && !lookup.containsKey(normalized)) {
-                lookup[normalized] = resourceName to info.type
+                lookup[normalized] = entry
             }
+            lookup[info.name.trim()] = entry
+            
+            // Extract ID from filename: support_card_s_30285.png -> 30285
+            // format: support_card_s_{ID}.png
+             val parts = resourceName.split("_")
+             if (parts.size >= 4) {
+                 // parts[0]=support, parts[1]=card, parts[2]=s, parts[3]=30285
+                 val id = parts.lastOrNull()
+                 if (!id.isNullOrEmpty()) {
+                     lookup[id] = entry
+                 }
+             }
         }
         return lookup
     }
@@ -213,12 +240,21 @@ class BannerSeedDataSource @Inject constructor(
             .trim()
     }
 
-    private fun resolveImageUrlAndType(names: List<String>, lookup: Map<String, Pair<String, String>>): Pair<String?, String?>? {
+    private fun resolveImageUrlAndType(names: List<String>, lookup: Map<String, Triple<String, String, String>>): Triple<String?, String?, String?>? {
+        // First try exact match (useful for IDs)
+        for (name in names) {
+            val trimmed = name.trim()
+             val match = lookup[trimmed]
+            if (match != null) {
+                return Triple(toResourceUrl(match.first), match.second, match.third)
+            }
+        }
+    
         val normalizedNames = names.map { normalizeName(it) }.filter { it.isNotEmpty() }
         for (normalized in normalizedNames) {
             val match = lookup[normalized]
             if (match != null) {
-                return toResourceUrl(match.first) to match.second
+                return Triple(toResourceUrl(match.first), match.second, match.third)
             }
         }
 
@@ -227,7 +263,7 @@ class BannerSeedDataSource @Inject constructor(
                 it.key.contains(normalized) || normalized.contains(it.key)
             }
             if (match != null) {
-                return toResourceUrl(match.value.first) to match.value.second
+                return Triple(toResourceUrl(match.value.first), match.value.second, match.value.third)
             }
         }
 
@@ -235,7 +271,7 @@ class BannerSeedDataSource @Inject constructor(
     }
     
     // Kept for single name resolution if needed internally
-    private fun resolveImageUrlAndType(name: String, lookup: Map<String, Pair<String, String>>): Pair<String?, String?>? {
+    private fun resolveImageUrlAndType(name: String, lookup: Map<String, Triple<String, String, String>>): Triple<String?, String?, String?>? {
         return resolveImageUrlAndType(listOf(name), lookup)
     }
 
