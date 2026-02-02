@@ -15,8 +15,8 @@ Umamusume Future Sight is an Android application built with Jetpack Compose that
 
 ## Tech Stack
 
-- **Language**: Kotlin 1.8.20
-- **UI Framework**: Jetpack Compose (BOM 2023.08.00)
+- **Language**: Kotlin 1.8.20 (JVM target 17)
+- **UI Framework**: Jetpack Compose (BOM 2023.08.00, compiler 1.4.6)
 - **Architecture**: MVVM (Model-View-ViewModel)
 - **Build System**: Gradle 8.2 with Android Gradle Plugin 8.0.2
 - **Minimum SDK**: 24 (Android 7.0)
@@ -27,8 +27,12 @@ Umamusume Future Sight is an Android application built with Jetpack Compose that
 - Jetpack Compose with Material3
 - Kotlin Coroutines and Flow
 - AndroidX Lifecycle (ViewModel, Compose integration)
-- JUnit 4 for testing
-- Espresso for UI testing
+- Hilt (DI)
+- Retrofit + OkHttp + Kotlinx Serialization (networking)
+- Room (local storage)
+- Coil (image loading)
+- JUnit 4, MockK, Turbine, Coroutines test (unit testing)
+- Espresso (UI testing)
 
 ## Getting Started
 
@@ -74,6 +78,13 @@ Umamusume Future Sight is an Android application built with Jetpack Compose that
 ### Run Unit Tests
 ```bash
 ./gradlew test
+./gradlew testDebugUnitTest
+```
+
+### Run a Single Unit Test
+```bash
+./gradlew testDebugUnitTest --tests "com.saxpenguin.umamusumefuturesight.data.BannerRepositoryTest"
+./gradlew testDebugUnitTest --tests "com.saxpenguin.umamusumefuturesight.data.BannerRepositoryTest.testFetchBanners"
 ```
 
 ### Run Instrumented Tests
@@ -116,13 +127,7 @@ Please read [AGENTS.md](AGENTS.md) for detailed information on:
 
 ## Development Status
 
-⚠️ **Early Development**: This project is in its initial phase. The following are planned but not yet implemented:
-
-- [ ] Dependency Injection (Hilt)
-- [ ] Unit and instrumented test directories
-- [ ] Networking layer (Retrofit)
-- [ ] Local database (Room)
-- [ ] Image loading (Coil)
+⚠️ **Early Development**: The project is in its initial phase with core infrastructure configured.
 
 ## License
 
