@@ -3,6 +3,7 @@ package com.saxpenguin.umamusumefuturesight.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saxpenguin.umamusumefuturesight.data.BannerRepository
+import com.saxpenguin.umamusumefuturesight.data.manager.DataUpdateManager
 import com.saxpenguin.umamusumefuturesight.model.Banner
 import com.saxpenguin.umamusumefuturesight.model.BannerType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +38,8 @@ data class MainUiState(
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val bannerRepository: BannerRepository
+    private val bannerRepository: BannerRepository,
+    private val dataUpdateManager: DataUpdateManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState(isLoading = true))
@@ -53,9 +55,12 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
+                // Check for updates
+                val updated = dataUpdateManager.checkForUpdates()
+
                 // Initial load to ensure DB is populated
-                // This logic might need to be refined to avoid redundant network calls if data exists
-                val banners = bannerRepository.getBanners() 
+                // If updated is true, we force refresh to load the new data from files into DB
+                bannerRepository.getBanners(forceRefresh = updated)
                 
                 // Observe changes from DB
                 bannerRepository.getBannersFlow().collect { updatedBanners ->

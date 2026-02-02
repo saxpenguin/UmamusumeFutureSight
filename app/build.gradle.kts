@@ -5,7 +5,9 @@ plugins {
     id("kotlin-kapt")
     id("kotlinx-serialization")
     id("jacoco")
+    id("com.google.gms.google-services")
 }
+
 
 android {
     namespace = "com.saxpenguin.umamusumefuturesight"
@@ -101,6 +103,10 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-config")
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.13.5")
     testImplementation("app.cash.turbine:turbine:1.0.0")

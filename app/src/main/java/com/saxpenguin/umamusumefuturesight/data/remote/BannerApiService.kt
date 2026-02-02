@@ -1,9 +1,16 @@
 package com.saxpenguin.umamusumefuturesight.data.remote
 
-import com.saxpenguin.umamusumefuturesight.model.Banner
+import com.saxpenguin.umamusumefuturesight.data.remote.model.CardInfo
+import com.saxpenguin.umamusumefuturesight.data.remote.model.TimetableEntry
 import retrofit2.http.GET
 
 interface BannerApiService {
-    @GET("banners") // Placeholder endpoint
-    suspend fun getBanners(): List<Banner>
+    @GET("timetable.json")
+    suspend fun getTimetable(): List<TimetableEntry>
+
+    @GET("cards.json")
+    suspend fun getCards(): Map<String, CardInfo>
+
+    @GET("characters.json")
+    suspend fun getCharacters(): Map<String, String>
 }

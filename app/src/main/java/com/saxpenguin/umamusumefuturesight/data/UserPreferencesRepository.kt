@@ -22,6 +22,7 @@ class UserPreferencesRepository @Inject constructor(
     private val CHARACTER_TICKETS_KEY = intPreferencesKey("character_tickets")
     private val SINGLE_TICKETS_KEY = intPreferencesKey("single_tickets") // Support card tickets
     private val DAILY_INCOME_KEY = intPreferencesKey("daily_income")
+    private val DATA_VERSION_KEY = androidx.datastore.preferences.core.longPreferencesKey("local_data_version")
 
     val userResourcesFlow: Flow<UserResources> = context.dataStore.data
         .map { preferences ->
@@ -54,6 +55,17 @@ class UserPreferencesRepository @Inject constructor(
     suspend fun updateDailyJewelIncome(income: Int) {
         context.dataStore.edit { preferences ->
             preferences[DAILY_INCOME_KEY] = income
+        }
+    }
+
+    val localDataVersionFlow: Flow<Long> = context.dataStore.data
+        .map { preferences ->
+            preferences[DATA_VERSION_KEY] ?: 0L
+        }
+
+    suspend fun updateLocalDataVersion(version: Long) {
+        context.dataStore.edit { preferences ->
+            preferences[DATA_VERSION_KEY] = version
         }
     }
 }
