@@ -59,7 +59,7 @@ class BannerSeedDataSource @Inject constructor(
                 banners.add(
                     Banner(
                         id = "${baseId}-C",
-                        name = charaNames.joinToString(" / "),
+                        name = resolvedCards.joinToString(" / ") { it.name },
                         type = BannerType.CHARACTER,
                         jpStartDate = jpStartDate,
                         jpEndDate = jpEndDate,
@@ -91,7 +91,7 @@ class BannerSeedDataSource @Inject constructor(
                 banners.add(
                     Banner(
                         id = "${baseId}-S",
-                        name = cardNames.joinToString(" / "),
+                        name = resolvedCards.joinToString(" / ") { it.name },
                         type = BannerType.SUPPORT_CARD,
                         jpStartDate = jpStartDate,
                         jpEndDate = jpEndDate,

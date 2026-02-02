@@ -34,6 +34,12 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import com.saxpenguin.umamusumefuturesight.R
+import com.saxpenguin.umamusumefuturesight.model.SupportCardType
 
 data class BannerDetailUiState(
     val banner: Banner? = null,
@@ -128,7 +134,7 @@ fun BannerDetailScreen(
                         banner = banner,
                         offsetDays = uiState.offsetDays,
                         onLinkClick = { url ->
-                             uriHandler.openUri(url)
+                            uriHandler.openUri(url)
                         }
                     )
                 }
@@ -153,7 +159,74 @@ fun BannerDetailContent(
             .verticalScroll(rememberScrollState())
     ) {
         // Hero Image
-        if (banner.imageUrl != null) {
+        if (banner.featuredCards.isNotEmpty()) {
+            val displayCount = if (banner.featuredCards.size == 1) 1 else 2
+            
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp), // Height matches original single image
+                horizontalArrangement = Arrangement.Center
+            ) {
+                banner.featuredCards.take(displayCount).forEach { cardInfo ->
+                    Box(
+                        modifier = Modifier
+                            .aspectRatio(1f) // Square
+                            .fillMaxHeight()
+                            .padding(horizontal = 4.dp)
+                    ) {
+                        if (cardInfo.imageUrl != null) {
+                            NetworkImage(
+                                url = cardInfo.imageUrl,
+                                contentDescription = cardInfo.name,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop,
+                                alignment = Alignment.TopCenter
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text("No Image")
+                            }
+                        }
+
+                        // Type Icon for Support Cards
+                        if (banner.type == BannerType.SUPPORT_CARD && cardInfo.type != SupportCardType.UNKNOWN) {
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(8.dp)
+                            ) {
+                                val iconRes = when (cardInfo.type) {
+                                    SupportCardType.SPEED -> R.drawable.utx_ico_obtain_speed
+                                    SupportCardType.STAMINA -> R.drawable.utx_ico_obtain_stamina
+                                    SupportCardType.POWER -> R.drawable.utx_ico_obtain_power
+                                    SupportCardType.GUTS -> R.drawable.utx_ico_obtain_endurance
+                                    SupportCardType.WISDOM -> R.drawable.utx_ico_obtain_wise
+                                    SupportCardType.FRIEND -> R.drawable.utx_ico_obtain_friend
+                                    SupportCardType.GROUP -> R.drawable.utx_ico_obtain_group
+                                    else -> null
+                                }
+
+                                if (iconRes != null) {
+                                    Icon(
+                                        painter = painterResource(id = iconRes),
+                                        contentDescription = cardInfo.type.name,
+                                        modifier = Modifier.size(32.dp),
+                                        tint = Color.Unspecified
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (banner.imageUrl != null) {
             NetworkImage(
                 url = banner.imageUrl,
                 contentDescription = banner.name,
@@ -181,17 +254,25 @@ fun BannerDetailContent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Badge(type = banner.type)
-                
-                if (daysUntil >= 0) {
-                     Text(
+
+                val daysRemaining = ChronoUnit.DAYS.between(LocalDate.now(), twEndDate)
+                if (daysUntil > 0) {
+                        Text(
                         text = "還有 $daysUntil 天",
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleMedium
                     )
+                } else if (daysRemaining >= 0) {
+                    Text(
+                        text = "進行中 (剩餘 $daysRemaining 天)",
+                        color = MaterialTheme.colorScheme.tertiary,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleMedium
+                    )
                 } else {
-                     Text(
-                        text = "已結束 / 進行中",
+                        Text(
+                        text = "已結束",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.titleMedium
                     )
@@ -199,6 +280,7 @@ fun BannerDetailContent(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
 
             // Title
             Text(
