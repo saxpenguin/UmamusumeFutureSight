@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.saxpenguin.umamusumefuturesight.model.Banner
 import com.saxpenguin.umamusumefuturesight.model.BannerType
 import com.saxpenguin.umamusumefuturesight.ui.components.NetworkImage
+import com.saxpenguin.umamusumefuturesight.ui.components.Badge
 import com.saxpenguin.umamusumefuturesight.ui.theme.UmamusumeFutureSightTheme
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -391,25 +392,6 @@ fun BannerCard(
     }
 }
 
-@Composable
-fun Badge(type: BannerType) {
-    val (color, text) = when (type) {
-        BannerType.CHARACTER -> MaterialTheme.colorScheme.secondary to "馬娘"
-        BannerType.SUPPORT_CARD -> MaterialTheme.colorScheme.tertiary to "支援卡"
-    }
-    
-    Surface(
-        color = color,
-        shape = MaterialTheme.shapes.small
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-            style = MaterialTheme.typography.labelSmall,
-            color = Color.White
-        )
-    }
-}
 
 @Composable
 fun DateInfo(label: String, date: LocalDate, isHighlight: Boolean = false) {

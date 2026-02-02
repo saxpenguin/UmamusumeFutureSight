@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
+import com.saxpenguin.umamusumefuturesight.data.UserPreferencesRepository
 
 data class PlannerUiState(
     val resources: UserResources = UserResources(),
@@ -32,10 +33,12 @@ data class BannerProjection(
     val canSpark: Boolean
 )
 
+
 @HiltViewModel
 class PlannerViewModel @Inject constructor(
     private val calculator: ResourceCalculator,
-    private val bannerRepository: BannerRepository
+    private val bannerRepository: BannerRepository,
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PlannerUiState())
@@ -43,6 +46,27 @@ class PlannerViewModel @Inject constructor(
 
     init {
         loadTargetBanners()
+        observeUserResources()
+    }
+
+    private fun observeUserResources() {
+        viewModelScope.launch {
+            userPreferencesRepository.userResourcesFlow.collect { resources ->
+                _uiState.update { currentState ->
+                    // Re-calculate projections with new resources from DB
+                    val newProjections = calculateProjections(currentState.targetBanners.map { it.banner }, resources)
+                    
+                    currentState.copy(
+                        resources = resources,
+                        totalCharacterPulls = calculator.calculateTotalPulls(resources, BannerType.CHARACTER),
+                        totalSupportPulls = calculator.calculateTotalPulls(resources, BannerType.SUPPORT_CARD),
+                        canSparkCharacter = calculator.canSpark(resources, BannerType.CHARACTER),
+                        canSparkSupport = calculator.canSpark(resources, BannerType.SUPPORT_CARD),
+                        targetBanners = newProjections
+                    )
+                }
+            }
+        }
     }
 
     fun loadTargetBanners() {
@@ -53,35 +77,35 @@ class PlannerViewModel @Inject constructor(
     }
 
     fun updateJewels(count: Int) {
-        updateResources { it.copy(jewels = count) }
+        viewModelScope.launch {
+            userPreferencesRepository.updateJewels(count)
+        }
     }
 
     fun updateSingleTickets(count: Int) {
-        updateResources { it.copy(singleTickets = count) }
+        viewModelScope.launch {
+            userPreferencesRepository.updateSingleTickets(count)
+        }
     }
 
     fun updateCharacterTickets(count: Int) {
-        updateResources { it.copy(characterTickets = count) }
+        viewModelScope.launch {
+            userPreferencesRepository.updateCharacterTickets(count)
+        }
+    }
+
+    fun removeTarget(bannerId: String) {
+        viewModelScope.launch {
+            // Since it's in the target list, isTarget must be true. We want to set it to false.
+            // toggleTargetStatus flips the boolean, so passing true (current status) will make it false.
+            bannerRepository.toggleTargetStatus(bannerId, true)
+            loadTargetBanners() // Refresh the list
+        }
     }
 
     fun updateDailyJewelIncome(income: Int) {
-        updateResources { it.copy(dailyJewelIncome = income) }
-    }
-
-    private fun updateResources(updater: (UserResources) -> UserResources) {
-        _uiState.update { currentState ->
-            val newResources = updater(currentState.resources)
-            // Re-calculate projections whenever resources change
-            val newProjections = calculateProjections(currentState.targetBanners.map { it.banner }, newResources)
-            
-            currentState.copy(
-                resources = newResources,
-                totalCharacterPulls = calculator.calculateTotalPulls(newResources, BannerType.CHARACTER),
-                totalSupportPulls = calculator.calculateTotalPulls(newResources, BannerType.SUPPORT_CARD),
-                canSparkCharacter = calculator.canSpark(newResources, BannerType.CHARACTER),
-                canSparkSupport = calculator.canSpark(newResources, BannerType.SUPPORT_CARD),
-                targetBanners = newProjections
-            )
+         viewModelScope.launch {
+            userPreferencesRepository.updateDailyJewelIncome(income)
         }
     }
 

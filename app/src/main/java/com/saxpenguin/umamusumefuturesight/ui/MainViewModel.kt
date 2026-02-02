@@ -53,11 +53,15 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                // Simulate network delay for demonstration purposes (remove in production)
-                // kotlinx.coroutines.delay(1000) 
+                // Initial load to ensure DB is populated
+                // This logic might need to be refined to avoid redundant network calls if data exists
+                val banners = bannerRepository.getBanners() 
                 
-                allBannersCache = bannerRepository.getBanners()
-                updateUi()
+                // Observe changes from DB
+                bannerRepository.getBannersFlow().collect { updatedBanners ->
+                    allBannersCache = updatedBanners
+                    updateUi()
+                }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = e.localizedMessage ?: "Unknown error occurred") }
             }
@@ -91,12 +95,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 bannerRepository.toggleTargetStatus(banner.id, banner.isTarget)
-                
-                // Update local cache and UI
-                allBannersCache = allBannersCache.map {
-                    if (it.id == banner.id) it.copy(isTarget = !it.isTarget) else it
-                }
-                updateUi()
+                // UI update will happen automatically via Flow collection in loadBanners
             } catch (e: Exception) {
                 _uiState.update { it.copy(error = "無法更新追蹤狀態: ${e.localizedMessage}") }
             }

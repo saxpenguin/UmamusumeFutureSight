@@ -6,8 +6,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.saxpenguin.umamusumefuturesight.data.local.entity.BannerEntity
 
+import kotlinx.coroutines.flow.Flow
+
 @Dao
 interface BannerDao {
+    @Query("SELECT * FROM banners")
+    fun getAllBannersFlow(): Flow<List<BannerEntity>>
+
     @Query("SELECT * FROM banners")
     suspend fun getAllBanners(): List<BannerEntity>
 

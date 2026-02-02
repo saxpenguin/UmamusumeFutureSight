@@ -25,6 +25,7 @@ import com.saxpenguin.umamusumefuturesight.data.BannerRepository
 import com.saxpenguin.umamusumefuturesight.model.Banner
 import com.saxpenguin.umamusumefuturesight.model.BannerType
 import com.saxpenguin.umamusumefuturesight.ui.components.NetworkImage
+import com.saxpenguin.umamusumefuturesight.ui.components.Badge
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

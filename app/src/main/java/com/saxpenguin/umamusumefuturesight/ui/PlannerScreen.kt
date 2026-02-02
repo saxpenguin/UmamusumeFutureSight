@@ -20,7 +20,10 @@ import com.saxpenguin.umamusumefuturesight.model.Banner
 import com.saxpenguin.umamusumefuturesight.model.BannerType
 import com.saxpenguin.umamusumefuturesight.model.UserResources
 import com.saxpenguin.umamusumefuturesight.ui.components.NetworkImage
+import com.saxpenguin.umamusumefuturesight.ui.components.Badge
 import java.time.LocalDate
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,10 +99,10 @@ fun PlannerScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                              SuggestionChip(
-                                onClick = { viewModel.updateDailyJewelIncome(500) },
+                                onClick = { viewModel.updateDailyJewelIncome(600) },
                                 label = { Text("無課金") },
                                 colors = SuggestionChipDefaults.suggestionChipColors(
-                                    containerColor = if (uiState.resources.dailyJewelIncome == 500) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent
+                                    containerColor = if (uiState.resources.dailyJewelIncome == 600) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent
                                 )
                             )
                             SuggestionChip(
@@ -217,7 +220,10 @@ fun PlannerScreen(
                 }
 
                 items(uiState.targetBanners) { projection ->
-                    TargetProjectionCard(projection)
+                    TargetProjectionCard(
+                        projection = projection,
+                        onRemoveClick = { viewModel.removeTarget(it) }
+                    )
                 }
             } else {
                 item {
@@ -240,8 +246,12 @@ fun PlannerScreen(
     }
 }
 
+
 @Composable
-fun TargetProjectionCard(projection: BannerProjection) {
+fun TargetProjectionCard(
+    projection: BannerProjection,
+    onRemoveClick: (String) -> Unit
+) {
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = Modifier.fillMaxWidth()
@@ -262,7 +272,20 @@ fun TargetProjectionCard(projection: BannerProjection) {
                     maxLines = 1
                 )
                 
-                Badge(type = projection.banner.type)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Badge(type = projection.banner.type)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    IconButton(
+                        onClick = { onRemoveClick(projection.banner.id) },
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "取消追蹤",
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
             }
             
             

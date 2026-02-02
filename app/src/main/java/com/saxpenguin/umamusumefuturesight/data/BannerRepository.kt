@@ -10,6 +10,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
 /**
  * Repository for banner data management.
  * Fetches data from local DB or seed data.
@@ -23,6 +26,12 @@ class BannerRepository @Inject constructor(
     suspend fun toggleTargetStatus(bannerId: String, currentStatus: Boolean) {
         withContext(Dispatchers.IO) {
             bannerDao.updateTargetStatus(bannerId, !currentStatus)
+        }
+    }
+    
+    fun getBannersFlow(): Flow<List<Banner>> {
+        return bannerDao.getAllBannersFlow().map { entities ->
+            entities.map { it.toDomainModel() }
         }
     }
 
