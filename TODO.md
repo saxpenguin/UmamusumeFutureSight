@@ -33,7 +33,7 @@
 ## Phase 2: Core Feature - Banner Tracking
 - [x] **Data Layer**
     - [x] Implement `BannerRepository`
-    - [x] Seed data from assets (`timetable.csv`, `characters.json`, `cards.json`)
+    - [x] Seed data from assets (`timetable.json`, `characters.json`, `cards.json`)
     - [x] Store banners in Room and reuse cached data
     - [ ] Add explicit error surface (avoid swallow-all catch blocks)
 - [x] **UI - Banner List**

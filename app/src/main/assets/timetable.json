@@ -1,0 +1,641 @@
+[
+  {
+    "id": "107",
+    "jpStartDate": "2024/2/24",
+    "jpEndDate": "2024/3/21",
+    "twStartDate": "2025/6/27",
+    "twEndDate": "2025/7/23",
+    "charaPool": ["大鳴大放"],
+    "cardPool": ["都留岐涼花", "黃金巨匠"]
+  },
+  {
+    "id": "108",
+    "jpStartDate": "2024/3/12",
+    "jpEndDate": "2024/3/21",
+    "twStartDate": "2025/7/14",
+    "twEndDate": "2025/7/23",
+    "charaPool": ["創升"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "109",
+    "jpStartDate": "2024/3/21",
+    "jpEndDate": "2024/3/29",
+    "twStartDate": "2025/7/23",
+    "twEndDate": "2025/7/31",
+    "charaPool": ["萊茵實力"],
+    "cardPool": ["高尚駿逸"]
+  },
+  {
+    "id": "110",
+    "jpStartDate": "2024/3/29",
+    "jpEndDate": "2024/4/9",
+    "twStartDate": "2025/7/31",
+    "twEndDate": "2025/8/11",
+    "charaPool": ["舞會第一紅寶", "舞會大德太陽"],
+    "cardPool": ["舞會山人西風", "舞會喜嘉奇蹟"]
+  },
+  {
+    "id": "111",
+    "jpStartDate": "2024/4/9",
+    "jpEndDate": "2024/4/19",
+    "twStartDate": "2025/8/11",
+    "twEndDate": "2025/8/21",
+    "charaPool": ["換裝勝利獎券"],
+    "cardPool": ["新宇宙"]
+  },
+  {
+    "id": "112",
+    "jpStartDate": "2024/4/19",
+    "jpEndDate": "2024/4/30",
+    "twStartDate": "2025/8/21",
+    "twEndDate": "2025/9/1",
+    "charaPool": ["萬賴爭鳴"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "113",
+    "jpStartDate": "2024/4/30",
+    "jpEndDate": "2024/5/10",
+    "twStartDate": "2025/9/1",
+    "twEndDate": "2025/9/11",
+    "charaPool": ["武士八重無敵", "忍者超級小溪"],
+    "cardPool": ["武士成田大進", "武士菱奇蹟"]
+  },
+  {
+    "id": "114",
+    "jpStartDate": "2024/5/10",
+    "jpEndDate": "2024/5/20",
+    "twStartDate": "2025/9/11",
+    "twEndDate": "2025/9/21",
+    "charaPool": ["換裝愛麗速子"],
+    "cardPool": ["伏特加"]
+  },
+  {
+    "id": "115",
+    "jpStartDate": "2024/5/20",
+    "jpEndDate": "2024/5/30",
+    "twStartDate": "2025/9/21",
+    "twEndDate": "2025/10/1",
+    "charaPool": ["北方飛翔"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "116",
+    "jpStartDate": "2024/5/30",
+    "jpEndDate": "2024/6/13",
+    "twStartDate": "2025/10/1",
+    "twEndDate": "2025/10/15",
+    "charaPool": ["婚紗東商變革", "婚紗帝王光輝"],
+    "cardPool": ["婚紗比布魯斯", "婚紗青雲天空"]
+  },
+  {
+    "id": "117",
+    "jpStartDate": "2024/6/13",
+    "jpEndDate": "2024/6/26",
+    "twStartDate": "2025/10/15",
+    "twEndDate": "2025/10/28",
+    "charaPool": ["叢林口袋*"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "118",
+    "jpStartDate": "2024/6/26",
+    "jpEndDate": "2024/7/19",
+    "twStartDate": "2025/10/28",
+    "twEndDate": "2025/11/20",
+    "charaPool": ["夢之旅"],
+    "cardPool": ["秋川理事長", "西野花"]
+  },
+  {
+    "id": "119",
+    "jpStartDate": "2024/7/9",
+    "jpEndDate": "2024/7/19",
+    "twStartDate": "2025/11/10",
+    "twEndDate": "2025/11/20",
+    "charaPool": ["豐食祭米浴"],
+    "cardPool": ["緞通烈焰"]
+  },
+  {
+    "id": "120",
+    "jpStartDate": "2024/7/19",
+    "jpEndDate": "2024/7/29",
+    "twStartDate": "2025/11/20",
+    "twEndDate": "2025/11/30",
+    "charaPool": ["浮岩光王"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "121",
+    "jpStartDate": "2024/7/29",
+    "jpEndDate": "2024/8/14",
+    "twStartDate": "2025/11/30",
+    "twEndDate": "2025/12/17",
+    "charaPool": ["泳裝榮進閃耀", "泳裝北幸樽前"],
+    "cardPool": ["泳裝醒目飛鷹", "泳裝小林歷奇"]
+  },
+  {
+    "id": "122",
+    "jpStartDate": "2024/8/14",
+    "jpEndDate": "2024/8/24",
+    "twStartDate": "2025/12/17",
+    "twEndDate": "2025/12/27",
+    "charaPool": [],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "",
+    "jpStartDate": "2024/8/14",
+    "jpEndDate": "2024/8/24",
+    "twStartDate": "2025/12/17",
+    "twEndDate": "2025/12/27",
+    "charaPool": [],
+    "cardPool": ["美妙姿勢"]
+  },
+  {
+    "id": "123",
+    "jpStartDate": "2024/8/24",
+    "jpEndDate": "2024/9/10",
+    "twStartDate": "2025/12/27",
+    "twEndDate": "2026/1/13",
+    "charaPool": ["貴婦人*"],
+    "cardPool": ["愛如往昔"]
+  },
+  {
+    "id": "124",
+    "jpStartDate": "2024/8/30",
+    "jpEndDate": "2024/9/10",
+    "twStartDate": "2026/1/2",
+    "twEndDate": "2026/1/13",
+    "charaPool": ["換裝新宇宙", "換裝荒漠英雄"],
+    "cardPool": ["大樹快車", "富士奇石"]
+  },
+  {
+    "id": "125",
+    "jpStartDate": "2024/9/10",
+    "jpEndDate": "2024/9/30",
+    "twStartDate": "2026/1/13",
+    "twEndDate": "2026/2/2",
+    "charaPool": ["西薩里奧"],
+    "cardPool": ["希望城市"]
+  },
+  {
+    "id": "126",
+    "jpStartDate": "2024/9/20",
+    "jpEndDate": "2024/9/30",
+    "twStartDate": "2026/1/23",
+    "twEndDate": "2026/2/2",
+    "charaPool": ["杜蘭達爾"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "127",
+    "jpStartDate": "2024/9/30",
+    "jpEndDate": "2024/10/11",
+    "twStartDate": "2026/2/2",
+    "twEndDate": "2026/2/13",
+    "charaPool": ["萬聖節採珠", "萬聖節重砲"],
+    "cardPool": ["萬聖節成田白仁", "萬聖節菱亞馬遜"]
+  },
+  {
+    "id": "128",
+    "jpStartDate": "2024/10/11",
+    "jpEndDate": "2024/10/29",
+    "twStartDate": "2026/2/13",
+    "twEndDate": "2026/3/3",
+    "charaPool": ["泡泡糖小子"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "129",
+    "jpStartDate": "2024/10/29",
+    "jpEndDate": "2024/11/18",
+    "twStartDate": "2026/3/3",
+    "twEndDate": "2026/3/23",
+    "charaPool": ["賽博琵琶晨光"],
+    "cardPool": ["空中神宮", "大和赤驥"]
+  },
+  {
+    "id": "130",
+    "jpStartDate": "2024/11/8",
+    "jpEndDate": "2024/11/18",
+    "twStartDate": "2026/3/13",
+    "twEndDate": "2026/3/23",
+    "charaPool": ["賽博成田大進"],
+    "cardPool": ["克莉斯耶絲象徵"]
+  },
+  {
+    "id": "131",
+    "jpStartDate": "2024/11/18",
+    "jpEndDate": "2024/11/28",
+    "twStartDate": "2026/3/23",
+    "twEndDate": "2026/4/2",
+    "charaPool": ["空中彌賽亞"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "132",
+    "jpStartDate": "2024/11/28",
+    "jpEndDate": "2024/12/10",
+    "twStartDate": "2026/4/2",
+    "twEndDate": "2026/4/14",
+    "charaPool": ["聖誕節愛慕織姬", "聖誕節成田路"],
+    "cardPool": ["聖誕愛麗數碼", "聖誕名將怒濤"]
+  },
+  {
+    "id": "133",
+    "jpStartDate": "2024/12/10",
+    "jpEndDate": "2024/12/19",
+    "twStartDate": "2026/4/14",
+    "twEndDate": "2026/4/23",
+    "charaPool": ["凱旋芭蕾"],
+    "cardPool": ["疾風裝束"]
+  },
+  {
+    "id": "134",
+    "jpStartDate": "2024/12/19",
+    "jpEndDate": "2024/12/27",
+    "twStartDate": "2026/4/23",
+    "twEndDate": "2026/5/1",
+    "charaPool": ["蒼炎草上飛"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "135",
+    "jpStartDate": "2024/12/27",
+    "jpEndDate": "2025/1/10",
+    "twStartDate": "2026/5/1",
+    "twEndDate": "2026/5/15",
+    "charaPool": ["新年葛城榮主", "新年千明代表"],
+    "cardPool": ["魯道夫象徵", "目白阿爾丹"]
+  },
+  {
+    "id": "136",
+    "jpStartDate": "2025/1/10",
+    "jpEndDate": "2025/1/20",
+    "twStartDate": "2026/5/15",
+    "twEndDate": "2026/5/25",
+    "charaPool": ["天女丸善斯基"],
+    "cardPool": ["採珠"]
+  },
+  {
+    "id": "137",
+    "jpStartDate": "2025/1/20",
+    "jpEndDate": "2025/1/31",
+    "twStartDate": "2026/5/25",
+    "twEndDate": "2026/6/5",
+    "charaPool": ["狂熱激昂"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "138",
+    "jpStartDate": "2025/1/31",
+    "jpEndDate": "2025/2/14",
+    "twStartDate": "2026/6/5",
+    "twEndDate": "2026/6/19",
+    "charaPool": ["情人節奧斯頓真弓", "情人節山人西風"],
+    "cardPool": ["情人節真機伶", "情人節生野狄杜斯"]
+  },
+  {
+    "id": "139",
+    "jpStartDate": "2025/2/14",
+    "jpEndDate": "2025/2/24",
+    "twStartDate": "2026/6/19",
+    "twEndDate": "2026/6/29",
+    "charaPool": ["鶴丸強志"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "140",
+    "jpStartDate": "2025/2/24",
+    "jpEndDate": "2025/3/21",
+    "twStartDate": "2026/6/29",
+    "twEndDate": "2026/7/24",
+    "charaPool": ["黃金巨匠*"],
+    "cardPool": ["體現傳說之人", "杏目"]
+  },
+  {
+    "id": "141",
+    "jpStartDate": "2025/3/11",
+    "jpEndDate": "2025/3/21",
+    "twStartDate": "2026/7/14",
+    "twEndDate": "2026/7/24",
+    "charaPool": ["放聲歡呼"],
+    "cardPool": ["目白光明"]
+  },
+  {
+    "id": "142",
+    "jpStartDate": "2025/3/21",
+    "jpEndDate": "2025/3/31",
+    "twStartDate": "2026/7/24",
+    "twEndDate": "2026/8/3",
+    "charaPool": ["無需理由"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "143",
+    "jpStartDate": "2025/3/31",
+    "jpEndDate": "2025/4/10",
+    "twStartDate": "2026/8/3",
+    "twEndDate": "2026/8/13",
+    "charaPool": ["舞會踢踏城市", "舞會谷水琴蕾"],
+    "cardPool": ["伏特加", "夢之旅"]
+  },
+  {
+    "id": "144",
+    "jpStartDate": "2025/4/10",
+    "jpEndDate": "2025/4/21",
+    "twStartDate": "2026/8/13",
+    "twEndDate": "2026/8/24",
+    "charaPool": ["換裝天狼星象徵"],
+    "cardPool": ["謀勇兼備"]
+  },
+  {
+    "id": "145",
+    "jpStartDate": "2025/4/21",
+    "jpEndDate": "2025/4/30",
+    "twStartDate": "2026/8/24",
+    "twEndDate": "2026/9/2",
+    "charaPool": ["超常駿驥 "],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "146",
+    "jpStartDate": "2025/4/30",
+    "jpEndDate": "2025/5/12",
+    "twStartDate": "2026/9/2",
+    "twEndDate": "2026/9/14",
+    "charaPool": ["樂園小林歷奇", "樂園醒目飛鷹"],
+    "cardPool": ["樂園迷人景致", "樂園創升"]
+  },
+  {
+    "id": "147",
+    "jpStartDate": "2025/5/12",
+    "jpEndDate": "2025/5/21",
+    "twStartDate": "2026/9/14",
+    "twEndDate": "2026/9/23",
+    "charaPool": ["極峰"],
+    "cardPool": ["無聲鈴鹿"]
+  },
+  {
+    "id": "148",
+    "jpStartDate": "2025/5/21",
+    "jpEndDate": "2025/5/30",
+    "twStartDate": "2026/9/23",
+    "twEndDate": "2026/10/2",
+    "charaPool": ["唯獨愛你"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "149",
+    "jpStartDate": "2025/5/30",
+    "jpEndDate": "2025/6/13",
+    "twStartDate": "2026/10/2",
+    "twEndDate": "2026/10/16",
+    "charaPool": ["婚紗目白拉茉奴", "婚紗西薩里奧"],
+    "cardPool": ["萊茵實力", "勇敢之心"]
+  },
+  {
+    "id": "150",
+    "jpStartDate": "2025/6/13",
+    "jpEndDate": "2025/6/27",
+    "twStartDate": "2026/10/16",
+    "twEndDate": "2026/10/30",
+    "charaPool": [],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "",
+    "jpStartDate": "2025/6/13",
+    "jpEndDate": "2025/7/11",
+    "twStartDate": "2026/10/16",
+    "twEndDate": "2026/11/13",
+    "charaPool": ["時代創世"],
+    "cardPool": []
+  },
+  {
+    "id": "151",
+    "jpStartDate": "2025/6/27",
+    "jpEndDate": "2025/7/22",
+    "twStartDate": "2026/10/30",
+    "twEndDate": "2026/11/24",
+    "charaPool": ["無人島黃金城市"],
+    "cardPool": ["塔克布萊恩", "無人島玉藻十字"]
+  },
+  {
+    "id": "152",
+    "jpStartDate": "2025/7/11",
+    "jpEndDate": "2025/7/22",
+    "twStartDate": "2026/11/13",
+    "twEndDate": "2026/11/24",
+    "charaPool": ["無人島艾尼風神"],
+    "cardPool": ["目白雷恩"]
+  },
+  {
+    "id": "153",
+    "jpStartDate": "2025/7/22",
+    "jpEndDate": "2025/7/31",
+    "twStartDate": "2026/11/24",
+    "twEndDate": "2026/12/3",
+    "charaPool": ["房一潘朵拉"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "154",
+    "jpStartDate": "2025/7/31",
+    "jpEndDate": "2025/8/14",
+    "twStartDate": "2026/12/3",
+    "twEndDate": "2026/12/17",
+    "charaPool": ["泳裝里見皇冠", "泳裝高尚駿逸"],
+    "cardPool": ["泳裝凱旋芭蕾", "泳裝大鳴大放"]
+  },
+  {
+    "id": "155",
+    "jpStartDate": "2025/8/14",
+    "jpEndDate": "2025/8/24",
+    "twStartDate": "2026/12/17",
+    "twEndDate": "2026/12/27",
+    "charaPool": ["泳裝比布魯斯"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "156",
+    "jpStartDate": "2025/8/24",
+    "jpEndDate": "2025/9/19",
+    "twStartDate": "2026/12/27",
+    "twEndDate": "2027/1/22",
+    "charaPool": ["愛如往昔*"],
+    "cardPool": ["黃金旅程", "愛慕律動"]
+  },
+  {
+    "id": "157",
+    "jpStartDate": "2025/8/29",
+    "jpEndDate": "2025/9/9",
+    "twStartDate": "2027/1/1",
+    "twEndDate": "2027/1/12",
+    "charaPool": ["秋服喜嘉奇蹟", "秋服菱奇蹟"],
+    "cardPool": ["杜蘭達爾", "浮岩光王"]
+  },
+  {
+    "id": "158",
+    "jpStartDate": "2025/9/9",
+    "jpEndDate": "2025/9/19",
+    "twStartDate": "2027/1/12",
+    "twEndDate": "2027/1/22",
+    "charaPool": ["希望城市"],
+    "cardPool": ["第一紅寶"]
+  },
+  {
+    "id": "159",
+    "jpStartDate": "2025/9/19",
+    "jpEndDate": "2025/9/29",
+    "twStartDate": "2027/1/22",
+    "twEndDate": "2027/2/1",
+    "charaPool": ["信念"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "160",
+    "jpStartDate": "2025/9/29",
+    "jpEndDate": "2025/10/10",
+    "twStartDate": "2027/2/1",
+    "twEndDate": "2027/2/12",
+    "charaPool": ["萬聖節菱曙", "萬聖節美麗週日"],
+    "cardPool": ["萬聖節富士奇石", "萬聖節榮進閃耀"]
+  },
+  {
+    "id": "161",
+    "jpStartDate": "2025/10/10",
+    "jpEndDate": "2025/10/20",
+    "twStartDate": "2027/2/12",
+    "twEndDate": "2027/2/22",
+    "charaPool": ["萬聖節島川喬登"],
+    "cardPool": ["機伶金花"]
+  },
+  {
+    "id": "",
+    "jpStartDate": "2025/10/18",
+    "jpEndDate": "2025/10/29",
+    "twStartDate": "2027/2/20",
+    "twEndDate": "2027/3/3",
+    "charaPool": ["叢林口袋(復刻)"],
+    "cardPool": []
+  },
+  {
+    "id": "162",
+    "jpStartDate": "2025/10/18",
+    "jpEndDate": "2025/10/29",
+    "twStartDate": "2027/2/20",
+    "twEndDate": "2027/3/3",
+    "charaPool": ["緞通烈焰"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "163",
+    "jpStartDate": "2025/10/29",
+    "jpEndDate": "2025/11/19",
+    "twStartDate": "2027/3/3",
+    "twEndDate": "2027/3/24",
+    "charaPool": ["溫泉創升"],
+    "cardPool": ["保科健子", "溫泉東海帝皇"]
+  },
+  {
+    "id": "164",
+    "jpStartDate": "2025/11/10",
+    "jpEndDate": "2025/11/19",
+    "twStartDate": "2027/3/15",
+    "twEndDate": "2027/3/24",
+    "charaPool": ["溫泉奇銳駿"],
+    "cardPool": ["美浦波旁"]
+  },
+  {
+    "id": "165",
+    "jpStartDate": "2025/11/19",
+    "jpEndDate": "2025/11/28",
+    "twStartDate": "2027/3/24",
+    "twEndDate": "2027/4/2",
+    "charaPool": ["迷人景致"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "166",
+    "jpStartDate": "2025/11/28",
+    "jpEndDate": "2025/12/11",
+    "twStartDate": "2027/4/2",
+    "twEndDate": "2027/4/15",
+    "charaPool": ["聖誕節中山慶典", "聖誕節夢之旅"],
+    "cardPool": ["聖誕節黃金船", "聖誕節超常駿驥"]
+  },
+  {
+    "id": "167",
+    "jpStartDate": "2025/12/11",
+    "jpEndDate": "2026/1/8",
+    "twStartDate": "2027/4/15",
+    "twEndDate": "2027/5/13",
+    "charaPool": ["灰髮灰姑娘 小栗帽*"],
+    "cardPool": ["稻荷一"]
+  },
+  {
+    "id": "168",
+    "jpStartDate": "2025/12/21",
+    "jpEndDate": "2026/1/19",
+    "twStartDate": "2027/4/25",
+    "twEndDate": "2027/5/24",
+    "charaPool": ["黃金旅程*"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "169",
+    "jpStartDate": "2025/12/26",
+    "jpEndDate": "2026/1/8",
+    "twStartDate": "2027/4/30",
+    "twEndDate": "2027/5/13",
+    "charaPool": ["新年生野迪杜斯", "新年櫻花桂冠"],
+    "cardPool": ["氣槽", "美妙姿勢"]
+  },
+  {
+    "id": "",
+    "jpStartDate": "2026/1/1",
+    "jpEndDate": "2026/1/19",
+    "twStartDate": "2027/5/6",
+    "twEndDate": "2027/5/24",
+    "charaPool": ["貴婦人(復刻)"],
+    "cardPool": []
+  },
+  {
+    "id": "",
+    "jpStartDate": "2026/1/1",
+    "jpEndDate": "2026/1/19",
+    "twStartDate": "2027/5/6",
+    "twEndDate": "2027/5/24",
+    "charaPool": ["黃金巨匠(復刻)"],
+    "cardPool": []
+  },
+  {
+    "id": "170",
+    "jpStartDate": "2026/1/8",
+    "jpEndDate": "2026/1/19",
+    "twStartDate": "2027/5/13",
+    "twEndDate": "2027/5/24",
+    "charaPool": ["新年泡泡糖小子"],
+    "cardPool": ["帝王光輝"]
+  },
+  {
+    "id": "171",
+    "jpStartDate": "2026/1/19",
+    "jpEndDate": "2026/1/30",
+    "twStartDate": "2027/5/24",
+    "twEndDate": "2027/6/4",
+    "charaPool": ["神業"],
+    "cardPool": ["自選特選支援卡片轉蛋"]
+  },
+  {
+    "id": "172",
+    "jpStartDate": "2026/1/30",
+    "jpEndDate": "2026/2/14",
+    "twStartDate": "2027/6/4",
+    "twEndDate": "2027/6/19",
+    "charaPool": [],
+    "cardPool": []
+  }
+]
