@@ -64,6 +64,10 @@ class PlannerViewModel @Inject constructor(
         updateResources { it.copy(characterTickets = count) }
     }
 
+    fun updateDailyJewelIncome(income: Int) {
+        updateResources { it.copy(dailyJewelIncome = income) }
+    }
+
     private fun updateResources(updater: (UserResources) -> UserResources) {
         _uiState.update { currentState ->
             val newResources = updater(currentState.resources)

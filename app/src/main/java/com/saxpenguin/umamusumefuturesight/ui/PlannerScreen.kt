@@ -81,6 +81,53 @@ fun PlannerScreen(
                             value = uiState.resources.singleTickets,
                             onValueChange = { viewModel.updateSingleTickets(it) }
                         )
+                        
+                        Divider(modifier = Modifier.padding(vertical = 4.dp))
+                        
+                        Text(
+                            text = "每日預估獲得寶石",
+                            style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                        
+                        // Player Type Selection Chips
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                             SuggestionChip(
+                                onClick = { viewModel.updateDailyJewelIncome(500) },
+                                label = { Text("無課金") },
+                                colors = SuggestionChipDefaults.suggestionChipColors(
+                                    containerColor = if (uiState.resources.dailyJewelIncome == 500) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent
+                                )
+                            )
+                            SuggestionChip(
+                                onClick = { viewModel.updateDailyJewelIncome(650) },
+                                label = { Text("月卡/通行證") },
+                                colors = SuggestionChipDefaults.suggestionChipColors(
+                                    containerColor = if (uiState.resources.dailyJewelIncome == 650) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent
+                                )
+                            )
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                             SuggestionChip(
+                                onClick = { viewModel.updateDailyJewelIncome(700) },
+                                label = { Text("雙卡皆買") },
+                                colors = SuggestionChipDefaults.suggestionChipColors(
+                                    containerColor = if (uiState.resources.dailyJewelIncome == 700) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent
+                                )
+                            )
+                        }
+
+                        ResourceInput(
+                            label = "自訂每日寶石收入",
+                            value = uiState.resources.dailyJewelIncome,
+                            onValueChange = { viewModel.updateDailyJewelIncome(it) }
+                        )
                     }
                 }
             }
