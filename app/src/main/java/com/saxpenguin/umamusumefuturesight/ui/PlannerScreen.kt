@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -16,6 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.saxpenguin.umamusumefuturesight.model.Banner
+import com.saxpenguin.umamusumefuturesight.model.BannerType
 import com.saxpenguin.umamusumefuturesight.model.UserResources
 import com.saxpenguin.umamusumefuturesight.ui.components.NetworkImage
 import java.time.LocalDate
@@ -26,6 +28,10 @@ fun PlannerScreen(
     viewModel: PlannerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadTargetBanners()
+    }
 
     Scaffold(
         topBar = {
@@ -66,14 +72,14 @@ fun PlannerScreen(
                             onValueChange = { viewModel.updateJewels(it) }
                         )
                         ResourceInput(
-                            label = "單抽券 (Single Tickets)",
-                            value = uiState.resources.singleTickets,
-                            onValueChange = { viewModel.updateSingleTickets(it) }
+                            label = "賽馬娘轉蛋券 (Character Tickets)",
+                            value = uiState.resources.characterTickets,
+                            onValueChange = { viewModel.updateCharacterTickets(it) }
                         )
                         ResourceInput(
-                            label = "十連券 (10-Pull Tickets)",
-                            value = uiState.resources.tenPullTickets,
-                            onValueChange = { viewModel.updateTenPullTickets(it) }
+                            label = "支援卡轉蛋券 (Support Card Tickets)",
+                            value = uiState.resources.singleTickets,
+                            onValueChange = { viewModel.updateSingleTickets(it) }
                         )
                     }
                 }
@@ -91,15 +97,16 @@ fun PlannerScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+                // Character Pulls
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("總計抽數 (Pulls):")
+                    Text("馬娘池總計抽數:")
                     Text(
-                        text = "${uiState.totalPulls}",
+                        text = "${uiState.totalCharacterPulls}",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.secondary
                     )
                 }
 
@@ -107,10 +114,39 @@ fun PlannerScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("是否可保底 (Spark):")
+                    Text("馬娘池保底:")
                     Text(
-                        text = if (uiState.canSpark) "是 (Yes)" else "否 (No)",
-                        color = if (uiState.canSpark) Color.Green else Color.Red,
+                        text = if (uiState.canSparkCharacter) "是" else "否",
+                        color = if (uiState.canSparkCharacter) Color.Green else Color.Red,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+                
+                Spacer(modifier = Modifier.height(8.dp))
+                Divider(color = Color.LightGray.copy(alpha = 0.5f))
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Support Pulls
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("支援卡池總計抽數:")
+                    Text(
+                        text = "${uiState.totalSupportPulls}",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.tertiary
+                    )
+                }
+                
+                 Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("支援卡池保底:")
+                    Text(
+                        text = if (uiState.canSparkSupport) "是" else "否",
+                        color = if (uiState.canSparkSupport) Color.Green else Color.Red,
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
@@ -127,7 +163,7 @@ fun PlannerScreen(
                         style = MaterialTheme.typography.headlineSmall
                     )
                     Text(
-                        text = "預計到達該卡池時累積的資源",
+                        text = "預計到達該卡池時累積的資源 (含對應轉蛋券)",
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
@@ -166,12 +202,22 @@ fun TargetProjectionCard(projection: BannerProjection) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(
-                text = projection.banner.name,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                 Text(
+                    text = projection.banner.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(1f),
+                    maxLines = 1
+                )
+                
+                Badge(type = projection.banner.type)
+            }
+            
             
             Spacer(modifier = Modifier.height(4.dp))
             
@@ -200,7 +246,7 @@ fun TargetProjectionCard(projection: BannerProjection) {
                 
                 Column(horizontalAlignment = Alignment.End) {
                      Text(
-                        text = "預計抽數",
+                        text = "可用總抽數",
                         style = MaterialTheme.typography.labelSmall
                     )
                     Text(
@@ -220,8 +266,8 @@ fun TargetProjectionCard(projection: BannerProjection) {
                     shape = MaterialTheme.shapes.small
                 ) {
                     Text(
-                        text = "✓ 可保底 (Can Spark)",
-                        color = Color.Green, // In real app use specific dark green or theme color
+                        text = "✓ 可保底",
+                        color = Color.Green, 
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelMedium
                     )

@@ -1,6 +1,7 @@
 package com.saxpenguin.umamusumefuturesight.domain
 
 import com.saxpenguin.umamusumefuturesight.model.Banner
+import com.saxpenguin.umamusumefuturesight.model.BannerType
 import com.saxpenguin.umamusumefuturesight.model.UserResources
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -31,19 +32,26 @@ class ResourceCalculator @Inject constructor() {
     }
 
     /**
-     * Calculates the number of pulls (draws) available with current/projected resources.
+     * Calculates the number of pulls (draws) available for a specific banner type.
+     * Jewels can be used for both. Tickets are specific.
      */
-    fun calculateTotalPulls(resources: UserResources): Int {
+    fun calculateTotalPulls(resources: UserResources, bannerType: BannerType? = null): Int {
         val jewelPulls = resources.jewels / 150
-        val ticketPulls = resources.singleTickets + (resources.tenPullTickets * 10)
-        return jewelPulls + ticketPulls
+        
+        return when (bannerType) {
+            BannerType.CHARACTER -> jewelPulls + resources.characterTickets
+            BannerType.SUPPORT_CARD -> jewelPulls + resources.singleTickets // singleTickets are support card tickets
+            null -> jewelPulls + resources.singleTickets + resources.characterTickets // Total possible assets (though technically not all usable on one banner)
+        }
     }
 
     /**
      * Checks if the user has enough resources to reach a "pity" (spark) threshold.
-     * Usually 200 pulls (30,000 jewels).
+     * Usually 200 pulls (30,000 jewels equivalent).
      */
-    fun canSpark(resources: UserResources, sparkCost: Int = 30000): Boolean {
-        return resources.totalEquivalentJewels >= sparkCost
+    fun canSpark(resources: UserResources, bannerType: BannerType? = null, sparkCost: Int = 30000): Boolean {
+        val totalPulls = calculateTotalPulls(resources, bannerType)
+        val totalEquivalentJewels = totalPulls * 150
+        return totalEquivalentJewels >= sparkCost
     }
 }

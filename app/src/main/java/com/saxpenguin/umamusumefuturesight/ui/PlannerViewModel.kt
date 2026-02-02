@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.saxpenguin.umamusumefuturesight.data.BannerRepository
 import com.saxpenguin.umamusumefuturesight.domain.ResourceCalculator
 import com.saxpenguin.umamusumefuturesight.model.Banner
+import com.saxpenguin.umamusumefuturesight.model.BannerType
 import com.saxpenguin.umamusumefuturesight.model.UserResources
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +18,10 @@ import javax.inject.Inject
 
 data class PlannerUiState(
     val resources: UserResources = UserResources(),
-    val totalPulls: Int = 0,
-    val canSpark: Boolean = false,
+    val totalCharacterPulls: Int = 0,
+    val totalSupportPulls: Int = 0,
+    val canSparkCharacter: Boolean = false,
+    val canSparkSupport: Boolean = false,
     val targetBanners: List<BannerProjection> = emptyList()
 )
 
@@ -42,7 +45,7 @@ class PlannerViewModel @Inject constructor(
         loadTargetBanners()
     }
 
-    private fun loadTargetBanners() {
+    fun loadTargetBanners() {
         viewModelScope.launch {
             val targets = bannerRepository.getTargetBanners()
             updateProjections(targets)
@@ -57,8 +60,8 @@ class PlannerViewModel @Inject constructor(
         updateResources { it.copy(singleTickets = count) }
     }
 
-    fun updateTenPullTickets(count: Int) {
-        updateResources { it.copy(tenPullTickets = count) }
+    fun updateCharacterTickets(count: Int) {
+        updateResources { it.copy(characterTickets = count) }
     }
 
     private fun updateResources(updater: (UserResources) -> UserResources) {
@@ -69,8 +72,10 @@ class PlannerViewModel @Inject constructor(
             
             currentState.copy(
                 resources = newResources,
-                totalPulls = calculator.calculateTotalPulls(newResources),
-                canSpark = calculator.canSpark(newResources),
+                totalCharacterPulls = calculator.calculateTotalPulls(newResources, BannerType.CHARACTER),
+                totalSupportPulls = calculator.calculateTotalPulls(newResources, BannerType.SUPPORT_CARD),
+                canSparkCharacter = calculator.canSpark(newResources, BannerType.CHARACTER),
+                canSparkSupport = calculator.canSpark(newResources, BannerType.SUPPORT_CARD),
                 targetBanners = newProjections
             )
         }
@@ -97,8 +102,8 @@ class PlannerViewModel @Inject constructor(
             BannerProjection(
                 banner = banner,
                 projectedResources = projectedRes,
-                projectedPulls = calculator.calculateTotalPulls(projectedRes),
-                canSpark = calculator.canSpark(projectedRes)
+                projectedPulls = calculator.calculateTotalPulls(projectedRes, banner.type),
+                canSpark = calculator.canSpark(projectedRes, banner.type)
             )
         }
     }
