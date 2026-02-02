@@ -15,10 +15,17 @@ data class BannerEntity(
     val jpEndDate: LocalDate,
     val imageUrl: String? = null,
     val linkUrl: String? = null,
-    val isTarget: Boolean = false
+    val isTarget: Boolean = false,
+    val featuredCardsJson: String = "[]" // Store list as JSON string
 )
 
 fun BannerEntity.toDomainModel(): Banner {
+    val cards = try {
+         kotlinx.serialization.json.Json.decodeFromString<List<com.saxpenguin.umamusumefuturesight.model.BannerCardInfo>>(featuredCardsJson)
+    } catch (e: Exception) {
+        emptyList()
+    }
+
     return Banner(
         id = id,
         name = name,
@@ -27,11 +34,17 @@ fun BannerEntity.toDomainModel(): Banner {
         jpEndDate = jpEndDate,
         imageUrl = imageUrl,
         linkUrl = linkUrl,
-        isTarget = isTarget
+        isTarget = isTarget,
+        featuredCards = cards
     )
 }
 
 fun Banner.toEntity(): BannerEntity {
+    val cardsJson = kotlinx.serialization.json.Json.encodeToString(
+        kotlinx.serialization.builtins.ListSerializer(com.saxpenguin.umamusumefuturesight.model.BannerCardInfo.serializer()), 
+        featuredCards
+    )
+    
     return BannerEntity(
         id = id,
         name = name,
@@ -40,6 +53,8 @@ fun Banner.toEntity(): BannerEntity {
         jpEndDate = jpEndDate,
         imageUrl = imageUrl,
         linkUrl = linkUrl,
-        isTarget = isTarget
+        isTarget = isTarget,
+        featuredCardsJson = cardsJson
     )
 }
+

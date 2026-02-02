@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,10 +24,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.res.painterResource
+import com.saxpenguin.umamusumefuturesight.model.BannerCardInfo
+import com.saxpenguin.umamusumefuturesight.model.SupportCardType
+import com.saxpenguin.umamusumefuturesight.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BannerListScreen(
+
     onBannerClick: (String) -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
@@ -35,6 +41,7 @@ fun BannerListScreen(
 
     Scaffold(
         topBar = {
+
             TopAppBar(
                 title = { Text("賽馬娘未來視") },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -140,6 +147,7 @@ fun FilterChips(
     currentFilter: BannerType?,
     onFilterSelected: (BannerType?) -> Unit
 ) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -190,6 +198,7 @@ fun BannerList(
 fun BannerCard(
     banner: Banner,
     offsetDays: Long,
+
     onClick: () -> Unit,
     onTargetClick: () -> Unit
 ) {
@@ -203,7 +212,56 @@ fun BannerCard(
             .clickable(onClick = onClick)
     ) {
         Column {
-            if (banner.imageUrl != null) {
+            // New Layout: Display multiple cards if available
+            if (banner.featuredCards.isNotEmpty()) {
+                val displayCount = if (banner.featuredCards.size == 1) 1 else 2
+                
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(140.dp)
+                ) {
+                    banner.featuredCards.take(displayCount).forEach { cardInfo ->
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                        ) {
+                            if (cardInfo.imageUrl != null) {
+                                NetworkImage(
+                                    url = cardInfo.imageUrl,
+                                    contentDescription = cardInfo.name,
+                                    contentScale = if (displayCount == 1) ContentScale.Crop else ContentScale.Fit,
+                                    alignment = Alignment.TopCenter,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            } else {
+                                // Fallback if no image
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(cardInfo.name)
+                                }
+                            }
+
+                            // Type Icon Overlay
+                            if (banner.type == BannerType.SUPPORT_CARD && cardInfo.type != SupportCardType.UNKNOWN) {
+                                TypeIcon(
+                                    type = cardInfo.type,
+                                    modifier = Modifier
+                                        .align(Alignment.TopEnd)
+                                        .padding(4.dp)
+                                        .size(24.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+            } else if (banner.imageUrl != null) {
+                // Fallback to single main image if featuredCards is empty
                 NetworkImage(
                     url = banner.imageUrl,
                     contentDescription = banner.name,
@@ -216,6 +274,7 @@ fun BannerCard(
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -314,6 +373,29 @@ fun DateInfo(label: String, date: LocalDate, isHighlight: Boolean = false) {
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = if (isHighlight) FontWeight.Bold else FontWeight.Normal,
             color = if (isHighlight) MaterialTheme.colorScheme.primary else Color.Unspecified
+        )
+    }
+}
+
+@Composable
+fun TypeIcon(type: SupportCardType, modifier: Modifier = Modifier) {
+    val iconRes = when (type) {
+        SupportCardType.SPEED -> R.drawable.utx_ico_obtain_speed
+        SupportCardType.STAMINA -> R.drawable.utx_ico_obtain_stamina
+        SupportCardType.POWER -> R.drawable.utx_ico_obtain_power
+        SupportCardType.GUTS -> R.drawable.utx_ico_obtain_endurance // Assuming endurance = guts based on file list
+        SupportCardType.WISDOM -> R.drawable.utx_ico_obtain_wise
+        SupportCardType.FRIEND -> R.drawable.utx_ico_obtain_friend
+        SupportCardType.GROUP -> R.drawable.utx_ico_obtain_group
+        else -> null
+    }
+
+    if (iconRes != null) {
+        Icon(
+            painter = painterResource(id = iconRes),
+            contentDescription = type.name,
+            modifier = modifier,
+            tint = Color.Unspecified
         )
     }
 }

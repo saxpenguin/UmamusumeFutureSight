@@ -36,6 +36,7 @@ fun NetworkImage(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
+    alignment: Alignment = Alignment.Center,
     errorIcon: ImageVector = Icons.Default.Warning
 ) {
     Box(modifier = modifier) {
@@ -49,6 +50,7 @@ fun NetworkImage(
                     .build(),
                 contentDescription = contentDescription,
                 contentScale = contentScale,
+                alignment = alignment,
                 modifier = Modifier.fillMaxSize(),
                 loading = {
                     Box(

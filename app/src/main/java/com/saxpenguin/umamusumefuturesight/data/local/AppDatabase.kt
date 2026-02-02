@@ -5,8 +5,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.saxpenguin.umamusumefuturesight.data.local.entity.BannerEntity
 
-@Database(entities = [BannerEntity::class], version = 3, exportSchema = false)
+@Database(entities = [BannerEntity::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bannerDao(): BannerDao
 }
+

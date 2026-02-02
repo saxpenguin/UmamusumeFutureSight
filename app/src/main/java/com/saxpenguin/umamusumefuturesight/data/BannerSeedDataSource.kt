@@ -12,6 +12,9 @@ import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
+import com.saxpenguin.umamusumefuturesight.model.BannerCardInfo
+import com.saxpenguin.umamusumefuturesight.model.SupportCardType
+
 @Singleton
 class BannerSeedDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -22,7 +25,11 @@ class BannerSeedDataSource @Inject constructor(
         if (timetable.isEmpty()) {
             return emptyList()
         }
-        val characterLookup = buildLookup(loadNameMap("characters.json"))
+        // Characters still use simple string mapping in this implementation for now
+        // But we can adapt it if needed. For now assuming characters.json is old format or similar
+        val charaMap = loadCharacterMap("characters.json")
+        val charaLookup = buildCharacterLookup(charaMap)
+        
         val cardLookup = buildLookup(loadNameMap("cards.json"))
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy/M/d", Locale.US)
 
@@ -40,7 +47,15 @@ class BannerSeedDataSource @Inject constructor(
             val banners = mutableListOf<Banner>()
 
             if (charaNames.isNotEmpty()) {
-                val imageUrl = resolveImageUrl(charaNames, characterLookup)
+                val resolvedCards = charaNames.map { name ->
+                    val (resName, _) = resolveImageUrlAndType(name, charaLookup) ?: (null to null)
+                    BannerCardInfo(
+                        name = name,
+                        type = SupportCardType.UNKNOWN, // Characters don't have types like Speed/Stamina in this context
+                        imageUrl = resName
+                    )
+                }
+                
                 banners.add(
                     Banner(
                         id = "${baseId}-C",
@@ -48,14 +63,31 @@ class BannerSeedDataSource @Inject constructor(
                         type = BannerType.CHARACTER,
                         jpStartDate = jpStartDate,
                         jpEndDate = jpEndDate,
-                        imageUrl = imageUrl
+                        imageUrl = resolvedCards.firstOrNull()?.imageUrl,
+                        featuredCards = resolvedCards
                     )
                 )
             }
 
             if (cardNames.isNotEmpty()) {
                 val normalizedCardNames = cardNames.map { stripCardPrefix(it) }
-                val imageUrl = resolveImageUrl(normalizedCardNames, cardLookup)
+                
+                val resolvedCards = normalizedCardNames.mapIndexed { idx, name ->
+                     val rawName = if (idx < cardNames.size) cardNames[idx] else name
+                     val (resName, typeStr) = resolveImageUrlAndType(name, cardLookup) ?: (null to null)
+                     val cardType = try {
+                         if (typeStr != null) SupportCardType.valueOf(typeStr) else SupportCardType.UNKNOWN
+                     } catch (e: Exception) {
+                         SupportCardType.UNKNOWN
+                     }
+                     
+                     BannerCardInfo(
+                         name = rawName,
+                         type = cardType,
+                         imageUrl = resName
+                     )
+                }
+                
                 banners.add(
                     Banner(
                         id = "${baseId}-S",
@@ -63,7 +95,8 @@ class BannerSeedDataSource @Inject constructor(
                         type = BannerType.SUPPORT_CARD,
                         jpStartDate = jpStartDate,
                         jpEndDate = jpEndDate,
-                        imageUrl = imageUrl
+                        imageUrl = resolvedCards.firstOrNull()?.imageUrl,
+                        featuredCards = resolvedCards
                     )
                 )
             }
@@ -72,18 +105,66 @@ class BannerSeedDataSource @Inject constructor(
         }
     }
 
+    private fun loadCharacterMap(fileName: String): Map<String, String> {
+         val text = readAssetText(fileName) ?: return emptyMap()
+         return runCatching {
+             json.decodeFromString<Map<String, String>>(text)
+         }.getOrDefault(emptyMap())
+    }
+
+    private fun buildCharacterLookup(source: Map<String, String>): Map<String, Pair<String, String>> {
+        val lookup = mutableMapOf<String, Pair<String, String>>()
+        for ((fileName, displayName) in source) {
+            val normalized = normalizeName(displayName)
+            val resourceName = fileName.removeSuffix(".png")
+            if (normalized.isNotEmpty() && !lookup.containsKey(normalized)) {
+                lookup[normalized] = resourceName to "UNKNOWN"
+            }
+        }
+        return lookup
+    }
+
     private fun readAssetText(fileName: String): String? {
         return runCatching {
             context.assets.open(fileName).bufferedReader().use { it.readText() }
         }.getOrNull()
     }
 
-    private fun loadNameMap(fileName: String): Map<String, String> {
+    @Serializable
+    private data class CardInfo(
+
+        val name: String,
+        val type: String
+    )
+
+    private fun loadNameMap(fileName: String): Map<String, CardInfo> {
         val text = readAssetText(fileName) ?: return emptyMap()
+        
+        // Try new format first
         return runCatching {
-            json.decodeFromString<Map<String, String>>(text)
+            json.decodeFromString<Map<String, CardInfo>>(text)
+        }.recover {
+            // Fallback to old format
+            val oldMap = runCatching {
+                json.decodeFromString<Map<String, String>>(text)
+            }.getOrDefault(emptyMap())
+            
+            oldMap.mapValues { CardInfo(it.value, "UNKNOWN") }
         }.getOrDefault(emptyMap())
     }
+
+    private fun buildLookup(source: Map<String, CardInfo>): Map<String, Pair<String, String>> {
+        val lookup = mutableMapOf<String, Pair<String, String>>()
+        for ((fileName, info) in source) {
+            val normalized = normalizeName(info.name)
+            val resourceName = fileName.removeSuffix(".png")
+            if (normalized.isNotEmpty() && !lookup.containsKey(normalized)) {
+                lookup[normalized] = resourceName to info.type
+            }
+        }
+        return lookup
+    }
+
 
     private fun loadTimetable(fileName: String): List<TimetableEntry> {
         val text = readAssetText(fileName) ?: return emptyList()
@@ -92,17 +173,6 @@ class BannerSeedDataSource @Inject constructor(
         }.getOrDefault(emptyList())
     }
 
-    private fun buildLookup(source: Map<String, String>): Map<String, String> {
-        val lookup = mutableMapOf<String, String>()
-        for ((fileName, displayName) in source) {
-            val normalized = normalizeName(displayName)
-            val resourceName = fileName.removeSuffix(".png")
-            if (normalized.isNotEmpty() && !lookup.containsKey(normalized)) {
-                lookup[normalized] = resourceName
-            }
-        }
-        return lookup
-    }
 
     private fun parseDate(value: String?, formatter: DateTimeFormatter): LocalDate? {
         val trimmed = value?.trim().orEmpty()
@@ -143,12 +213,12 @@ class BannerSeedDataSource @Inject constructor(
             .trim()
     }
 
-    private fun resolveImageUrl(names: List<String>, lookup: Map<String, String>): String? {
+    private fun resolveImageUrlAndType(names: List<String>, lookup: Map<String, Pair<String, String>>): Pair<String?, String?>? {
         val normalizedNames = names.map { normalizeName(it) }.filter { it.isNotEmpty() }
         for (normalized in normalizedNames) {
             val match = lookup[normalized]
             if (match != null) {
-                return toResourceUrl(match)
+                return toResourceUrl(match.first) to match.second
             }
         }
 
@@ -157,14 +227,20 @@ class BannerSeedDataSource @Inject constructor(
                 it.key.contains(normalized) || normalized.contains(it.key)
             }
             if (match != null) {
-                return toResourceUrl(match.value)
+                return toResourceUrl(match.value.first) to match.value.second
             }
         }
 
         return null
     }
+    
+    // Kept for single name resolution if needed internally
+    private fun resolveImageUrlAndType(name: String, lookup: Map<String, Pair<String, String>>): Pair<String?, String?>? {
+        return resolveImageUrlAndType(listOf(name), lookup)
+    }
 
     private fun toResourceUrl(resourceName: String): String {
+
         return "android.resource://${context.packageName}/drawable/$resourceName"
     }
 
