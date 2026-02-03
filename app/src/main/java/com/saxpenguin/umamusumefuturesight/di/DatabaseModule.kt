@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.saxpenguin.umamusumefuturesight.data.local.AppDatabase
 import com.saxpenguin.umamusumefuturesight.data.local.BannerDao
+import com.saxpenguin.umamusumefuturesight.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,13 +19,17 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
-        return Room.databaseBuilder(
+        val builder = Room.databaseBuilder(
             context,
             AppDatabase::class.java,
             "umamusume_db"
         )
-        .fallbackToDestructiveMigration()
-        .build()
+        
+        if (BuildConfig.DEBUG) {
+            builder.fallbackToDestructiveMigration()
+        }
+        
+        return builder.build()
     }
 
     @Provides

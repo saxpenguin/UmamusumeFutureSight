@@ -20,12 +20,12 @@
     - [x] Add Kotlinx Serialization dependency
     - [x] Create API interface definitions
     - [x] Configure Retrofit instance in Hilt module
-    - [ ] Replace placeholder `BASE_URL` and endpoints with real data source
+    - [x] Replace placeholder `BASE_URL` and endpoints with real data source
 - [x] **Local Database (Room)**
     - [x] Add Room dependencies (runtime, ktx, compiler)
     - [x] Define entity + DAO for banners
     - [x] Setup Room database instance
-    - [ ] Add migration strategy (avoid `fallbackToDestructiveMigration` in release)
+    - [x] Add migration strategy (avoid `fallbackToDestructiveMigration` in release)
 - [x] **Image Loading (Coil)**
     - [x] Add Coil dependency
     - [x] Create reusable `NetworkImage` composable
@@ -76,7 +76,7 @@
 - [x] **Build Configuration**
     - [x] ProGuard/R8 config wired
     - [x] Release signing config placeholder
-    - [ ] Generate and verify signed APK/AAB for release
+    - [x] Generate and verify signed APK/AAB for release
 
 ## Phase 6: Data & UX Improvements
 - [ ] Refresh asset data and add update workflow
