@@ -32,3 +32,8 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Project Management & Agent Files
+AGENTS.md
+TODO.md
+opencode.json
