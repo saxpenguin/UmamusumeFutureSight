@@ -20,10 +20,11 @@ class BannerRepositoryTest {
     private val apiService: BannerApiService = mockk()
     private val bannerDao: BannerDao = mockk(relaxed = true)
     private val bannerSeedDataSource: BannerSeedDataSource = mockk()
+    private val bannerDataProcessor: BannerDataProcessor = mockk()
 
     @Before
     fun setup() {
-        bannerRepository = BannerRepository(apiService, bannerDao, bannerSeedDataSource)
+        bannerRepository = BannerRepository(apiService, bannerDao, bannerSeedDataSource, bannerDataProcessor)
     }
 
     @Test
