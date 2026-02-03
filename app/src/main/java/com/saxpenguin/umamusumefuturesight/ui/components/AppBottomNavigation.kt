@@ -9,6 +9,7 @@ import com.saxpenguin.umamusumefuturesight.navigation.Routes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.Info
 
 
 @Composable
@@ -19,7 +20,8 @@ fun AppBottomNavigation(navController: NavController) {
     // Only show bottom bar on main screens
     val showBottomBar = currentRoute in listOf(
         Routes.BannerList.route,
-        Routes.Planner.route
+        Routes.Planner.route,
+        Routes.About.route
     )
 
     if (showBottomBar) {
@@ -42,6 +44,18 @@ fun AppBottomNavigation(navController: NavController) {
                 selected = currentRoute == Routes.Planner.route,
                 onClick = {
                     navController.navigate(Routes.Planner.route) {
+                        popUpTo(Routes.BannerList.route) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
+            NavigationBarItem(
+                icon = { Icon(Icons.Default.Info, contentDescription = "關於") },
+                label = { Text("關於") },
+                selected = currentRoute == Routes.About.route,
+                onClick = {
+                    navController.navigate(Routes.About.route) {
                         popUpTo(Routes.BannerList.route) { saveState = true }
                         launchSingleTop = true
                         restoreState = true

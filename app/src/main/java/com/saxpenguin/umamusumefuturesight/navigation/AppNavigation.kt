@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.saxpenguin.umamusumefuturesight.ui.AboutScreen
 import com.saxpenguin.umamusumefuturesight.ui.BannerDetailScreen
 import com.saxpenguin.umamusumefuturesight.ui.BannerListScreen
 import com.saxpenguin.umamusumefuturesight.ui.PlannerScreen
@@ -47,6 +48,12 @@ fun AppNavigation() {
 
             composable(Routes.Planner.route) {
                 PlannerScreen()
+            }
+            
+            composable(Routes.About.route) {
+                AboutScreen(
+                    onBackClick = { navController.popBackStack() }
+                )
             }
         }
     }

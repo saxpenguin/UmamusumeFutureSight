@@ -6,4 +6,5 @@ sealed class Routes(val route: String) {
         fun createRoute(bannerId: String) = "banner_detail/$bannerId"
     }
     object Planner : Routes("planner")
+    object About : Routes("about")
 }
